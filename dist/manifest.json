@@ -1,24 +1,18 @@
 {
   "manifest_version": 2,
 
-  "name": "github-user-languages",
-  "description": "See a user's language usage at a glance on their profile.",
-  "version": "0.1",
+  "name": "GitHub User Languages",
+  "description": "Draws a pie chart on GitHub User profiles detailing their language breakdown.",
+  "version": "0.1.0",
 
-  "page_action": {
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
-  },
+  "content_scripts": [{
+    "matches": ["https://github.com/*"],
+    "js": ["js/vendor.js", "js/content_script.js"]
+  }],
 
-  "background": {
-    "scripts": ["js/background.js"],
-    "persistent": false
-  },
+  "web_accessible_resources": [
+    "colors.json"
+  ],
 
-  "permissions": [
-    "storage",
-    "declarativeContent",
-    "activeTab",
-    "<all_urls>"
-  ]
+  "permissions": []
 }

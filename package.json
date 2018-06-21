@@ -1,7 +1,7 @@
 {
-  "name": "chrome-extension-typescript-starter",
-  "version": "1.0.0",
-  "description": "chrome-extension-typescript-starter",
+  "name": "github-user-languages",
+  "version": "0.1.0",
+  "description": "A little Chrome Extension that draws a pie chart on GitHub User profiles detailing their language breakdown. Built with TypeScript and Chart.js.",
   "main": "index.js",
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
@@ -11,10 +11,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/chibat/chrome-extension-typescript-starter.git"
+    "url": "https://github.com/crnbrdrck/github-user-languages.git"
   },
   "dependencies": {
-    "amcharts3": "^3.21.13"
+    "chart.js": "^2.7.2"
   },
   "devDependencies": {
     "@types/chrome": "0.0.69",
