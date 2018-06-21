@@ -105,6 +105,17 @@ class LanguageDisplay {
       },
       type: 'pie',
     });
+
+    // Add event listeners to get the slice that was clicked on
+    // Will redirect to a list of the user's repos of that language
+    this.canvas.onclick = (e) => {
+      // Have to encode it in case of C++ and C#
+      const slice = chart.getElementsAtEvent(e)[0];
+      if (slice === undefined) { return; }
+      const language = encodeURIComponent(langs[slice._index].toLowerCase());
+      // Redirect to the user's list of that language
+      window.location.href = `https://github.com/${this.username}?tab=repositories&language=${language}`;
+    }
   }
 
 }
