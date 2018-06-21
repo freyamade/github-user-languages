@@ -40,6 +40,8 @@ If you think of anything that could benefit the project, open up an [issue](http
 
 I'm also not that great at writing READMEs so help with this one would be very welcome!
 
+Also I've put a claim down for a logo as part of the [openlogos](https://github.com/arasatasaygin/openlogos/) project, so if you want to help the project get a cool logo, go give my comment a thumbs up over [here](https://github.com/arasatasaygin/openlogos/issues/12)! :+1:
+
 ## Boilerplate
 Boilerplate used to set up this project can be found at https://github.com/chibat/chrome-extension-typescript-starter
 
