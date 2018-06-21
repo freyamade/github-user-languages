@@ -11,7 +11,7 @@ So I decided to make just that!
 
 Click the badge to be taken to the web store page for this plugin!
 
-*It's currently giving me 404s but I feel like that's a temporary thing probably*
+
 
 ### Firefox
 Firefox version is planned but currently not even started, although I doubt there'll be much to change.
