@@ -1,33 +1,24 @@
 {
   "manifest_version": 2,
 
-  "name": "Chrome Extension TypeScript Starter",
-  "description": "Chrome Extension, TypeScript, Visual Studio Code",
-  "version": "1.0",
+  "name": "github-user-languages",
+  "description": "See a user's language usage at a glance on their profile.",
+  "version": "0.1",
 
-  "options_ui": {
-    "page": "options.html",
-    "chrome_style": true
-  },
-
-  "browser_action": {
+  "page_action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
 
-  "content_scripts": [
-      {
-          "matches": ["<all_urls>"],
-          "js": ["js/vendor.js", "js/content_script.js"]
-      }
-  ],
-
   "background": {
-    "scripts": ["js/vendor.js", "js/background.js"]
+    "scripts": ["js/background.js"],
+    "persistent": false
   },
 
   "permissions": [
     "storage",
+    "declarativeContent",
+    "activeTab",
     "<all_urls>"
   ]
 }

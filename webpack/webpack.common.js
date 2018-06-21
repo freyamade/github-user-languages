@@ -3,10 +3,10 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        popup: path.join(__dirname, '../src/popup.ts'),
-        options: path.join(__dirname, '../src/options.ts'),
         background: path.join(__dirname, '../src/background.ts'),
-        content_script: path.join(__dirname, '../src/content_script.ts')
+        // content_script: path.join(__dirname, '../src/content_script.ts')
+        // options: path.join(__dirname, '../src/options.ts'),
+        popup: path.join(__dirname, '../src/popup.ts'),
     },
     output: {
         path: path.join(__dirname, '../dist/js'),
@@ -32,6 +32,6 @@ module.exports = {
     },
     plugins: [
         // exclude locale files in moment
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ]
 };
