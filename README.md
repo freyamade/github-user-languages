@@ -12,4 +12,5 @@ Cache anything that's important to the generation of it to avoid over-using the 
 
 API endpoint: `https://api.github.com/users/:profile/repos`
 
-Tye https://github.com/samuelsimoes/chrome-extension-webpack-boilerplate for help with setting up the extension's source. We'll probably need webpack so we can get a little module that will generate piecharts for us
+Try https://github.com/samuelsimoes/chrome-extension-webpack-boilerplate for help with setting up the extension's source. We'll probably need webpack so we can get a little module that will generate piecharts for us.
+Also can see https://github.com/chibat/chrome-extension-typescript-starter for adding TypeScript into that mix.
