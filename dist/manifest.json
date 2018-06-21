@@ -2,6 +2,8 @@
   "manifest_version": 2,
 
   "name": "GitHub User Languages",
+  "author": "crnbrdrck (Ciaran Broderick)",
+  "short_name": "github-user-languages",
   "description": "Draws a pie chart on GitHub User profiles detailing their language breakdown.",
   "version": "0.1.0",
 
