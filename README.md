@@ -34,7 +34,7 @@ Also, by clicking on one of the segments, you can be redirected to a list of rep
 ## Roadmap
 
 - [x] Draw the pie chart
-- [ ] Design an extension icon
+- [x] Design an extension icon (have added a basic one but have put a claim in for one of the `openlogos` logos too)
 - [ ] Make it available on the chrome store
 - [ ] Add storage of data for users to avoid over-using the Github API and getting rate limited
 - [ ] Create a version for Firefox browsers
