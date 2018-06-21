@@ -46,5 +46,8 @@ If you think of anything that could benefit the project, open up an [issue](http
 
 I'm also not that great at writing READMEs so help with this one would be very welcome!
 
+## Boilerplate
+Boilerplate used to set up this project can be found at https://github.com/chibat/chrome-extension-typescript-starter
+
 ## License
 MIT
