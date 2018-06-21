@@ -10,6 +10,13 @@
     "js": ["js/vendor.js", "js/content_script.js"]
   }],
 
+  "icons": {
+    "16": "images/github-user-languages.16.png",
+    "32": "images/github-user-languages.32.png",
+    "48": "images/github-user-languages.48.png",
+    "128": "images/github-user-languages.128.png"
+  },
+
   "web_accessible_resources": [
     "colors.json"
   ],
