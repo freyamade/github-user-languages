@@ -29,6 +29,8 @@ Simply visit a User's profile page (why not [mine](https://github.com/crnbrdrck)
 
 All the colours are pulled from GitHub's official language colours, and hovering over any section will tell you the language and how many repos the user has made in that language. Simple! :smile:
 
+*That TypeScript repo is the one you're in right now by the way!*
+
 ## Roadmap
 
 - [x] Draw the pie chart
