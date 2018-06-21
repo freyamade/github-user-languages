@@ -1,4 +1,4 @@
-# graph-hub
+# github-user-languages
 Browser extension that adds little language pie charts to a user's profile page on GitHub
 
 ## Plans
@@ -9,3 +9,5 @@ Hit the API (if no value has been cached) for all the user's projects and get al
 Then get percentages of each language and create a pie chart using the language colours as provided by GitHub.
 
 Cache anything that's important to the generation of it to avoid over-using the API.
+
+API endpoint: `https://api.github.com/users/:profile/repos`
