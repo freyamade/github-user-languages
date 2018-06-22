@@ -1,6 +1,8 @@
 // This script is excuted directly from inside the page
 import { Chart } from 'chart.js';
 
+const CACHE_THRESHOLD = 36e5; // 1 hour
+
 class LanguageDisplay {
   private username: string;
   private langData: object;
@@ -11,7 +13,9 @@ class LanguageDisplay {
 
   constructor(username : string) {
     this.username = username;
-    this.langData = {};
+    this.langData = null;
+    // Check the cache for language data for this user
+    this.checkCache();
     // Fetch the lang data now
     this.parent = document.querySelector('div[itemtype="http://schema.org/Person"]');
     // Handling for orgs
@@ -37,6 +41,37 @@ class LanguageDisplay {
         this.build();
       }).catch((e) => console.error(`gh-user-langs: Error retrieving repo data from the GitHub API: ${e}`));
     }).catch((e) => console.error(`gh-user-langs: Error creating graph: ${e}`));
+  }
+
+  // Check our 'cache' to see if we have the User already
+  private checkCache() {
+    chrome.storage.local.get([this.username], (result) => {
+      console.log(`${this.username} was cached`);
+      let cachedData = result[this.username];
+      // Check when it was cached at, if since threshold then update immediately
+      if (new Date().valueOf() - cachedData.cachedAt > CACHE_THRESHOLD) {
+        await this.fetchLangData();
+      }
+      else {
+        // It's within an hour so use the cached data
+        this.langData = cachedData.data;
+      }
+    });
+  }
+
+  private cacheData(data : object) {
+    // Store the repo data in the cache for the username
+    const cachedAt = new Date().valueOf();
+    const key = this.username;
+    const cacheData = {
+      key: {
+          cachedAt: cachedAt,
+          data: data
+      },
+    }
+    chrome.storage.local.set(cacheData, () => {
+      console.log(`Data for ${this.username} successfully cached`);
+    })
   }
 
   private createContainer() {
