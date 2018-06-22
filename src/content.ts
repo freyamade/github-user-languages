@@ -16,7 +16,6 @@ class LanguageDisplay {
     this.parent = document.querySelector('div[itemtype="http://schema.org/Person"]');
     // Handling for orgs
     if (this.parent === null) {
-      console.log('gh-user-langs: Org page, no need to generate the graph');
       return;
     }
     this.canvas = null;
@@ -128,5 +127,4 @@ const splitPath = path.split('/');
 if (splitPath.length === 1 || (splitPath.length === 2 && splitPath[1] === '')) {
   const profileName = splitPath[0];
   const graph = new LanguageDisplay(profileName);
-  console.log('gh-user-langs loading');
 }
