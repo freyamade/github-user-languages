@@ -10,6 +10,7 @@ interface CachedData {
 
 export class Data {
   private username : string;
+  public repoDataFromCache : boolean = false;
 
   constructor(username : string) {
     this.username = username;
@@ -24,29 +25,40 @@ export class Data {
     return this.getGenericJsonPromise(url);
   }
 
+  private checkCache() : Promise<CachedData> {
+    // Create a promise to retrieve the key from cache, or reject if it's not there
+    return new Promise((resolve, reject) => {
+      chrome.storage.local.get([this.username], (result) => {
+        console.log('Data.checkCache', result, Object.keys(result).length);
+        // If the data isn't there, result will be an empty object
+        if (Object.keys(result).length > 0) {
+          console.log('Theres definitely something in the cache, just need to check the time diff');
+          // We have a cached object, so check time of cache
+          let cachedData = result[this.username];
+          if (new Date().valueOf() - cachedData.cachedAt < CACHE_THRESHOLD) {
+            console.log('It was made less than an hour ago');
+            // We can use the cached version
+            resolve(cachedData);
+          }
+        }
+        // If we get to this point, there was nothing in cache or the cache was invalid
+        reject();
+      })
+    })
+  }
+
   // Fetches the repo data either from cache or from the API and returns a Promise for the data
   private getRepoData() : Promise<object> {
-    let inCache = false;
-    let cachedData : CachedData = null;
     // Check if the user's data is in the cache
-    chrome.storage.local.get([this.username], (result) => {
-      // If the data isn't there, result will be an empty object
-      if (Object.keys(result).length > 0) {
-        // We have a cached object, so check time of cache
-        cachedData = result[this.username];
-        if (new Date().valueOf() - cachedData.cachedAt < CACHE_THRESHOLD) {
-          // We can use the cached version
-          inCache = true;
-        }
-      }
-    })
-    console.log('Repo data coming from cache?', inCache);
-    if (!inCache) {
-      return this.fetchRepoData();
-    } else {
-      // Here we create a Promise to return the cached data
-      return Promise.resolve(cachedData.data);
-    }
+    return Promise.resolve(
+      this.checkCache().then((cachedData) => {
+        this.repoDataFromCache = true;
+        return Promise.resolve(cachedData.data);
+      }).catch(() => {
+        // Data wasn't in cache so get new data
+        return this.fetchRepoData();
+      })
+    );
   }
 
   // Fetch repository data from the API

@@ -45,9 +45,12 @@ class LanguageDisplay {
     const cacheData = {};
     cacheData[this.username] = value;
     console.log(cacheData);
-    chrome.storage.local.set(cacheData, () => {
-      console.log(`Data for ${this.username} successfully cached`);
-    });
+    // Cache the data if we need to
+    if (this.data.repoDataFromCache) {
+      chrome.storage.local.set(cacheData, () => {
+        console.log(`Data for ${this.username} successfully cached`);
+      });
+    }
   }
 
   private createContainer() {
