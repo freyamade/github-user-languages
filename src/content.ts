@@ -27,8 +27,11 @@ class LanguageDisplay {
       // 0 -> color data, 1 -> repo data
       const colorData = values[0];
       const repoData = values[1];
-      // Cache the repoData we just got
-      this.cacheData(repoData);
+      // Cache the repoData we just got, if we need to
+      console.log(this.data.repoDataFromCache);
+      if (!this.data.repoDataFromCache) {
+        this.cacheData(repoData);
+      }
       // Build the graph
       this.build(colorData, repoData);
     }).catch((e) => console.error(`gh-user-langs: Error creating graph: ${e}`));
@@ -45,12 +48,9 @@ class LanguageDisplay {
     const cacheData = {};
     cacheData[this.username] = value;
     console.log(cacheData);
-    // Cache the data if we need to
-    if (this.data.repoDataFromCache) {
-      chrome.storage.local.set(cacheData, () => {
-        console.log(`Data for ${this.username} successfully cached`);
-      });
-    }
+    chrome.storage.local.set(cacheData, () => {
+      console.log(`Data for ${this.username} successfully cached`);
+    });
   }
 
   private createContainer() {
