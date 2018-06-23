@@ -8,3 +8,7 @@ script:
   - npm install
   - tslint 'src/**/*.ts'
   - npm run build
+
+# Turn off email notifs
+notifications:
+  email: false
