@@ -44,7 +44,7 @@ class LanguageDisplay {
     };
     const cacheData = {};
     cacheData[this.username] = value;
-    chrome.storage.local.set(cacheData, () => {});
+    chrome.storage.local.set(cacheData);
   }
 
   private createContainer() {
@@ -88,9 +88,7 @@ class LanguageDisplay {
     const counts = [];
     const colors = [];
     const langs = [];
-    const sortedKeys = Object.keys(repoData).sort();
-    for (const i in sortedKeys) {
-      const prop = sortedKeys[i];
+    for (const prop of Object.keys(repoData).sort()) {
       if (repoData.hasOwnProperty(prop)) {
         // Prop is one of the languages
         langs.push(prop);
