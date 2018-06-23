@@ -1,21 +1,17 @@
 // This script is excuted directly from inside the page
 import { Chart } from 'chart.js';
-
-const CACHE_THRESHOLD = 36e5; // 1 hour
+import { Data } from './data';
 
 class LanguageDisplay {
-  private username: string;
-  private langData: object;
-  private colorData: object;
-  private parent: HTMLDivElement;
-  private container: HTMLDivElement;
-  private canvas: HTMLCanvasElement;
+  private username : string;
+  private data : Data;
+  private parent : HTMLDivElement;
+  private container : HTMLDivElement;
+  private canvas : HTMLCanvasElement;
 
   constructor(username : string) {
     this.username = username;
-    this.langData = null;
-    // Check the cache for language data for this user
-    this.checkCache();
+    this.data = new Data(username);
     // Fetch the lang data now
     this.parent = document.querySelector('div[itemtype="http://schema.org/Person"]');
     // Handling for orgs
@@ -25,53 +21,33 @@ class LanguageDisplay {
     this.canvas = null;
     this.container = null;
     // Fetch the color data from the json file
-    fetch(chrome.runtime.getURL('colors.json')).then((response) => response.json()).then((colorData) => {
-      this.colorData = colorData;
-      // Now go get the repo data last as it could be ratelimited
-      fetch(`https://api.github.com/users/${this.username}/repos`).then((response) =>
-        response.json(),
-      ).then((repoData) => {
-        for (const repo of repoData) {
-          if (repo.language === null) { continue; }
-          let currentCount = this.langData[repo.language] || 0;
-          currentCount++;
-          this.langData[repo.language] = currentCount;
-        }
-        // If all is good, build the graph
-        this.build();
-      }).catch((e) => console.error(`gh-user-langs: Error retrieving repo data from the GitHub API: ${e}`));
+    console.log('About to start building');
+    // Use the promise provided by the Data class to get all necessary data
+    this.data.getData().then((values) => {
+      // 0 -> color data, 1 -> repo data
+      const colorData = values[0];
+      const repoData = values[1];
+      // Cache the repoData we just got
+      this.cacheData(repoData);
+      // Build the graph
+      this.build(colorData, repoData);
     }).catch((e) => console.error(`gh-user-langs: Error creating graph: ${e}`));
-  }
-
-  // Check our 'cache' to see if we have the User already
-  private checkCache() {
-    chrome.storage.local.get([this.username], (result) => {
-      console.log(`${this.username} was cached`);
-      let cachedData = result[this.username];
-      // Check when it was cached at, if since threshold then update immediately
-      if (new Date().valueOf() - cachedData.cachedAt > CACHE_THRESHOLD) {
-        await this.fetchLangData();
-      }
-      else {
-        // It's within an hour so use the cached data
-        this.langData = cachedData.data;
-      }
-    });
   }
 
   private cacheData(data : object) {
     // Store the repo data in the cache for the username
+    console.log('Caching', data);
     const cachedAt = new Date().valueOf();
-    const key = this.username;
-    const cacheData = {
-      key: {
-          cachedAt: cachedAt,
-          data: data
-      },
+    const value = {
+      cachedAt: cachedAt,
+      data: data,
     }
+    const cacheData = {};
+    cacheData[this.username] = value;
+    console.log(cacheData);
     chrome.storage.local.set(cacheData, () => {
       console.log(`Data for ${this.username} successfully cached`);
-    })
+    });
   }
 
   private createContainer() {
@@ -99,7 +75,9 @@ class LanguageDisplay {
     return canvas;
   }
 
-  private build() {
+  private build(colorData : object, repoData : object) {
+    console.log('Building graph');
+    console.log(repoData);
     this.container = this.createContainer();
     this.parent.appendChild(this.container);
     // Get the width and height of the container and use it to build the canvas
@@ -107,20 +85,22 @@ class LanguageDisplay {
     this.canvas = this.createCanvas(width);
     this.container.appendChild(this.canvas);
     // Now draw the chart
-    this.draw();
+    this.draw(colorData, repoData);
   }
 
-  private draw() {
+  private draw(colorData: object, repoData: object) {
     // Create the pie chart and populate it with the repo data
     const counts = [];
     const colors = [];
     const langs = [];
-    for (const prop in this.langData) {
-      if (this.langData.hasOwnProperty(prop)) {
+    console.log('Drawing');
+    for (const prop in repoData) {
+      console.log(prop);
+      if (repoData.hasOwnProperty(prop)) {
         // Prop is one of the languages
         langs.push(prop);
-        counts.push(this.langData[prop]);
-        colors.push(this.colorData[prop]);
+        counts.push(repoData[prop]);
+        colors.push(colorData[prop]);
       }
     }
     const chart = new Chart(this.canvas, {
@@ -149,7 +129,7 @@ class LanguageDisplay {
       const language = encodeURIComponent(langs[slice._index].toLowerCase());
       // Redirect to the user's list of that language
       window.location.href = `https://github.com/${this.username}?tab=repositories&language=${language}`;
-    }
+    };
   }
 
 }
