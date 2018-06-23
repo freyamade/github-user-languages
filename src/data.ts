@@ -35,14 +35,11 @@ export class Data {
     // Create a promise to retrieve the key from cache, or reject if it's not there
     return new Promise((resolve, reject) => {
       chrome.storage.local.get([this.username], (result) => {
-        console.log('Data.checkCache', result, Object.keys(result).length);
         // If the data isn't there, result will be an empty object
         if (Object.keys(result).length > 0) {
-          console.log('Theres definitely something in the cache, just need to check the time diff');
           // We have a cached object, so check time of cache
           const cachedData = result[this.username];
           if (new Date().valueOf() - cachedData.cachedAt < CACHE_THRESHOLD) {
-            console.log('It was made less than an hour ago');
             // We can use the cached version
             resolve(cachedData);
           }

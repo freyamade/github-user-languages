@@ -21,14 +21,12 @@ class LanguageDisplay {
     this.canvas = null;
     this.container = null;
     // Fetch the color data from the json file
-    console.log('About to start building');
     // Use the promise provided by the Data class to get all necessary data
     this.data.getData().then((values) => {
       // 0 -> color data, 1 -> repo data
       const colorData = values[0];
       const repoData = values[1];
       // Cache the repoData we just got, if we need to
-      console.log(this.data.repoDataFromCache);
       if (!this.data.repoDataFromCache) {
         this.cacheData(repoData);
       }
@@ -39,7 +37,6 @@ class LanguageDisplay {
 
   private cacheData(data : object) {
     // Store the repo data in the cache for the username
-    console.log('Caching', data);
     const cachedAt = new Date().valueOf();
     const value = {
       cachedAt,
@@ -47,10 +44,7 @@ class LanguageDisplay {
     };
     const cacheData = {};
     cacheData[this.username] = value;
-    console.log(cacheData);
-    chrome.storage.local.set(cacheData, () => {
-      console.log(`Data for ${this.username} successfully cached`);
-    });
+    chrome.storage.local.set(cacheData, () => {});
   }
 
   private createContainer() {
@@ -79,8 +73,6 @@ class LanguageDisplay {
   }
 
   private build(colorData : object, repoData : object) {
-    console.log('Building graph');
-    console.log(repoData);
     this.container = this.createContainer();
     this.parent.appendChild(this.container);
     // Get the width and height of the container and use it to build the canvas
@@ -96,11 +88,9 @@ class LanguageDisplay {
     const counts = [];
     const colors = [];
     const langs = [];
-    console.log('Drawing');
     const sortedKeys = Object.keys(repoData).sort();
     for (const i in sortedKeys) {
       const prop = sortedKeys[i];
-      console.log(prop);
       if (repoData.hasOwnProperty(prop)) {
         // Prop is one of the languages
         langs.push(prop);
