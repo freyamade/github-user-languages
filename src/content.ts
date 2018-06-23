@@ -1,43 +1,50 @@
 // This script is excuted directly from inside the page
 import { Chart } from 'chart.js';
+import { Data } from './data';
 
 class LanguageDisplay {
-  private username: string;
-  private langData: object;
-  private colorData: object;
-  private parent: HTMLDivElement;
-  private container: HTMLDivElement;
-  private canvas: HTMLCanvasElement;
+  private username : string;
+  private data : Data;
+  private parent : HTMLDivElement;
+  private container : HTMLDivElement;
+  private canvas : HTMLCanvasElement;
 
   constructor(username : string) {
     this.username = username;
-    this.langData = {};
+    this.data = new Data(username);
     // Fetch the lang data now
     this.parent = document.querySelector('div[itemtype="http://schema.org/Person"]');
     // Handling for orgs
     if (this.parent === null) {
-      console.log('gh-user-langs: Org page, no need to generate the graph');
       return;
     }
     this.canvas = null;
     this.container = null;
     // Fetch the color data from the json file
-    fetch(chrome.runtime.getURL('colors.json')).then((response) => response.json()).then((colorData) => {
-      this.colorData = colorData;
-      // Now go get the repo data last as it could be ratelimited
-      fetch(`https://api.github.com/users/${this.username}/repos`).then((response) =>
-        response.json(),
-      ).then((repoData) => {
-        for (const repo of repoData) {
-          if (repo.language === null) { continue; }
-          let currentCount = this.langData[repo.language] || 0;
-          currentCount++;
-          this.langData[repo.language] = currentCount;
-        }
-        // If all is good, build the graph
-        this.build();
-      }).catch((e) => console.error(`gh-user-langs: Error retrieving repo data from the GitHub API: ${e}`));
+    // Use the promise provided by the Data class to get all necessary data
+    this.data.getData().then((values) => {
+      // 0 -> color data, 1 -> repo data
+      const colorData = values[0];
+      const repoData = values[1];
+      // Cache the repoData we just got, if we need to
+      if (!this.data.repoDataFromCache) {
+        this.cacheData(repoData);
+      }
+      // Build the graph
+      this.build(colorData, repoData);
     }).catch((e) => console.error(`gh-user-langs: Error creating graph: ${e}`));
+  }
+
+  private cacheData(data : object) {
+    // Store the repo data in the cache for the username
+    const cachedAt = new Date().valueOf();
+    const value = {
+      cachedAt,
+      data,
+    };
+    const cacheData = {};
+    cacheData[this.username] = value;
+    chrome.storage.local.set(cacheData);
   }
 
   private createContainer() {
@@ -65,7 +72,7 @@ class LanguageDisplay {
     return canvas;
   }
 
-  private build() {
+  private build(colorData : object, repoData : object) {
     this.container = this.createContainer();
     this.parent.appendChild(this.container);
     // Get the width and height of the container and use it to build the canvas
@@ -73,20 +80,20 @@ class LanguageDisplay {
     this.canvas = this.createCanvas(width);
     this.container.appendChild(this.canvas);
     // Now draw the chart
-    this.draw();
+    this.draw(colorData, repoData);
   }
 
-  private draw() {
+  private draw(colorData: object, repoData: object) {
     // Create the pie chart and populate it with the repo data
     const counts = [];
     const colors = [];
     const langs = [];
-    for (const prop in this.langData) {
-      if (this.langData.hasOwnProperty(prop)) {
+    for (const prop of Object.keys(repoData).sort()) {
+      if (repoData.hasOwnProperty(prop)) {
         // Prop is one of the languages
         langs.push(prop);
-        counts.push(this.langData[prop]);
-        colors.push(this.colorData[prop]);
+        counts.push(repoData[prop]);
+        colors.push(colorData[prop]);
       }
     }
     const chart = new Chart(this.canvas, {
@@ -115,7 +122,7 @@ class LanguageDisplay {
       const language = encodeURIComponent(langs[slice._index].toLowerCase());
       // Redirect to the user's list of that language
       window.location.href = `https://github.com/${this.username}?tab=repositories&language=${language}`;
-    }
+    };
   }
 
 }
@@ -128,5 +135,4 @@ const splitPath = path.split('/');
 if (splitPath.length === 1 || (splitPath.length === 2 && splitPath[1] === '')) {
   const profileName = splitPath[0];
   const graph = new LanguageDisplay(profileName);
-  console.log('gh-user-langs loading');
 }
