@@ -1,4 +1,6 @@
-# GitHub User Languages
+# GitHub User Languages [![Travis branch](https://img.shields.io/travis/crnbrdrck/github-user-languages/master.svg)](https://travis-ci.org/crnbrdrck/github-user-languages)
+
+
 A little Chrome Extension that draws a pie chart on GitHub User profiles detailing their language breakdown. Built with TypeScript, Chart.js and :heart:.
 
 Recently, I have wanted a little graph that shows the language breakdown of a user right on their profile.
