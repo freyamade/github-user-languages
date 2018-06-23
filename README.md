@@ -29,9 +29,9 @@ Also, by clicking on one of the segments, you can be redirected to a list of rep
 
 - [x] Draw the pie chart
 - [x] Design an extension icon (have added a basic one but have put a claim in for one of the `openlogos` logos too)
-- [x] Make it available on the chrome store (uploaded but still currently 404ing for me)
+- [x] Make it available on the chrome store
 - [x] Add storage of data for users to avoid over-using the Github API and getting rate limited
-- [ ] Add some control over the cache for users (i.e checking when a person's data was last pulled from API, force pulling, etc)
+- [ ] Add some control over the cache for users (i.e setting timeouts, force cache invalidation, etc)
 - [ ] Create a version for Firefox browsers
 
 ## Want to Contribute?
