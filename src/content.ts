@@ -42,9 +42,9 @@ class LanguageDisplay {
     console.log('Caching', data);
     const cachedAt = new Date().valueOf();
     const value = {
-      cachedAt: cachedAt,
-      data: data,
-    }
+      cachedAt,
+      data,
+    };
     const cacheData = {};
     cacheData[this.username] = value;
     console.log(cacheData);
@@ -98,7 +98,6 @@ class LanguageDisplay {
     const langs = [];
     console.log('Drawing');
     for (const prop in repoData) {
-      console.log(prop);
       if (repoData.hasOwnProperty(prop)) {
         // Prop is one of the languages
         langs.push(prop);

@@ -3,17 +3,23 @@
 
 const CACHE_THRESHOLD = 36e5; // 1 hour
 
-interface CachedData {
-  cachedAt : number,
-  data : object
+interface ICachedData {
+  cachedAt : number;
+  data : object;
 }
 
 export class Data {
-  private username : string;
   public repoDataFromCache : boolean = false;
+  private username : string;
 
   constructor(username : string) {
     this.username = username;
+  }
+
+  public getData(): Promise<object[]> {
+    // Gets both the color data and repo data and returns a Promise that will resolve to get both of them
+    // Calling .then on this should get back an array of two values; color and repo data respectively
+    return Promise.all([this.getColorData(), this.getRepoData()]);
   }
 
   private getGenericJsonPromise(url : string) {
@@ -25,7 +31,7 @@ export class Data {
     return this.getGenericJsonPromise(url);
   }
 
-  private checkCache() : Promise<CachedData> {
+  private checkCache() : Promise<ICachedData> {
     // Create a promise to retrieve the key from cache, or reject if it's not there
     return new Promise((resolve, reject) => {
       chrome.storage.local.get([this.username], (result) => {
@@ -34,7 +40,7 @@ export class Data {
         if (Object.keys(result).length > 0) {
           console.log('Theres definitely something in the cache, just need to check the time diff');
           // We have a cached object, so check time of cache
-          let cachedData = result[this.username];
+          const cachedData = result[this.username];
           if (new Date().valueOf() - cachedData.cachedAt < CACHE_THRESHOLD) {
             console.log('It was made less than an hour ago');
             // We can use the cached version
@@ -43,8 +49,8 @@ export class Data {
         }
         // If we get to this point, there was nothing in cache or the cache was invalid
         reject();
-      })
-    })
+      });
+    });
   }
 
   // Fetches the repo data either from cache or from the API and returns a Promise for the data
@@ -57,7 +63,7 @@ export class Data {
       }).catch(() => {
         // Data wasn't in cache so get new data
         return this.fetchRepoData();
-      })
+      }),
     );
   }
 
@@ -67,7 +73,7 @@ export class Data {
     const jsonPromise = this.getGenericJsonPromise(url);
     // From the generic json response, build a repo data object
     return Promise.resolve(jsonPromise.then((json) => {
-      let repoData = {};
+      const repoData = {};
       for (const repo of json) {
         if (repo.language === null) { continue; }
         let count = repoData[repo.language] || 0;
@@ -75,12 +81,6 @@ export class Data {
         repoData[repo.language] = count;
       }
       return repoData;
-    }))
-  }
-
-  public getData() : Promise<object[]> {
-    // Gets both the color data and repo data and returns a Promise that will resolve to get both of them
-    // Calling .then on this should get back an array of two values; color and repo data respectively
-    return Promise.all([this.getColorData(), this.getRepoData()]);
+    }));
   }
 }
