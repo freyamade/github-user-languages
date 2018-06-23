@@ -97,7 +97,10 @@ class LanguageDisplay {
     const colors = [];
     const langs = [];
     console.log('Drawing');
-    for (const prop in repoData) {
+    const sortedKeys = Object.keys(repoData).sort();
+    for (const i in sortedKeys) {
+      const prop = sortedKeys[i];
+      console.log(prop);
       if (repoData.hasOwnProperty(prop)) {
         // Prop is one of the languages
         langs.push(prop);
