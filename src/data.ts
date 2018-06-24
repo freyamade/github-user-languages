@@ -20,7 +20,7 @@ export class Data {
     this.username = username;
   }
 
-  public getData(): Promise<object[]> {
+  public getData() : Promise<object[]> {
     // Gets both the color data and repo data and returns a Promise that will resolve to get both of them
     // Calling .then on this should get back an array of two values; color and repo data respectively
     return Promise.all([this.getColorData(), this.getRepoData()]);
@@ -36,32 +36,33 @@ export class Data {
     return new Promise((resolve, reject) => {
       chrome.storage.local.get([this.username], (result) => {
         // If the data isn't there, result will be an empty object
-        if (Object.keys(result).length > 0) {
-          // We have a cached object, so check time of cache
-          const cachedData = result[this.username];
-          if (new Date().valueOf() - cachedData.cachedAt < CACHE_THRESHOLD) {
-            // We can use the cached version
-            resolve(cachedData);
-          }
+        if (Object.keys(result).length < 1) {
+          // If we get to this point, there was nothing in cache or the cache was invalid
+          return reject();
         }
-        // If we get to this point, there was nothing in cache or the cache was invalid
-        reject();
+        // We have a cached object, so check time of cache
+        const cachedData = result[this.username];
+        if (new Date().valueOf() - cachedData.cachedAt < CACHE_THRESHOLD) {
+          // We can use the cached version
+          return resolve(cachedData);
+        }
+
+        return reject();
       });
     });
   }
 
   // Fetches the repo data either from cache or from the API and returns a Promise for the data
-  private getRepoData() : Promise<object> {
-    // Check if the user's data is in the cache
-    return Promise.resolve(
-      this.checkCache().then((cachedData) => {
-        this.repoDataFromCache = true;
-        return Promise.resolve(cachedData.data);
-      }).catch(() => {
-        // Data wasn't in cache so get new data
-        return this.fetchRepoData();
-      }),
-    );
+  private async getRepoData() : Promise<object> {
+    try {
+      // Check if the user's data is in the cache
+      const cachedData = await this.checkCache();
+      this.repoDataFromCache = true;
+      return Promise.resolve(cachedData.data);
+    } catch (e) {
+      // Data wasn't in cache so get new data
+      return this.fetchRepoData();
+    }
   }
 
   private updateRepoData(repoData : object, json : IAPIRepoData[]) : object {
