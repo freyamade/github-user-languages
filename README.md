@@ -45,6 +45,21 @@ I'm also not that great at writing READMEs so help with this one would be very w
 
 Also I've put a claim down for a logo as part of the [openlogos](https://github.com/arasatasaygin/openlogos/) project, so if you want to help the project get a cool logo, go give my comment a thumbs up over [here](https://github.com/arasatasaygin/openlogos/issues/12)! :+1:
 
+### Development Process
+1. Clone the repo and install the dependencies with `npm install`
+2. Run `npm run watch` to start the watch and build process
+  - This will build the TypeScript into `dist/js`
+3. Visit `chrome://extensions` in your browser
+4. Turn on Developer Mode
+5. Click `Load Unpacked`
+6. Open the `dist` folder in the prompt that is displayed
+7. The extension should now be loaded from the local directory
+
+#### Notes
+- Whenever you make changes to the extension, the JS will compile automatically but you'll need to click the little circle arrow on `chrome://extensions` to reload the extension
+- It's probably a good idea to turn off the release version while you're doing development so they don't mess with eachother
+- If you want to turn off caching while in development, simply add `reject()` as the first line of the Promise in `data.ts` line 36
+
 ## Boilerplate
 Boilerplate used to set up this project can be found at https://github.com/chibat/chrome-extension-typescript-starter
 
