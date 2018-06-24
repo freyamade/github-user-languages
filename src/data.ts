@@ -66,7 +66,7 @@ export class Data {
 
   // Fetch repository data from the API
   private fetchRepoData() : Promise<object> {
-    const url = `https://api.github.com/users/${this.username}/repos`;
+    const url = `https://api.github.com/users/${this.username}/repos?page=1&per_page=50`;
     const jsonPromise = this.getGenericJsonPromise(url);
     // From the generic json response, build a repo data object
     return Promise.resolve(jsonPromise.then((json) => {
