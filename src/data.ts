@@ -81,7 +81,6 @@ export class Data {
     // The header can contain many URLs, separated by commas, each with a rel
     // We want only the one that contains rel="next"
     for (const url of header.split(', ')) {
-      console.log('checking url', url);
       if (url.includes('rel="next"')) {
         // We need to retrive the actual URL part using regex
         return regex.exec(url)[1];
@@ -92,24 +91,20 @@ export class Data {
 
   // Fetch repository data from the API
   private async fetchRepoData() : Promise<object> {
-    let url = `https://api.github.com/users/${this.username}/repos?page=1&per_page=10`;
+    let url = `https://api.github.com/users/${this.username}/repos?page=1&per_page=50`;
     let linkHeader : string;
     let repoData: object = {};
     const headerRegex = /\<(.*)\>; rel="next"/;
     // Use Promise.resolve to wait for the result
-    console.log('sending first request');
     let data = await fetch(url).then((response) => {
       linkHeader = response.headers.get('link');
       return response.json()
     });
-    console.log('after first request call');
-    console.log('link header', linkHeader);
     // From this JSON response, compile repoData (to reduce memory usage) and then see if there's more to fetch
     repoData = this.updateRepoData(repoData, data);
     // Now loop through the link headers, fetching more data and updating the repos dict
     url = this.getNextUrlFromHeader(linkHeader);
     while (url !== null) {
-      console.log(url);
       // Send a request and update the repo data again
       data = await fetch(url).then((response) => {
         linkHeader = response.headers.get('link');
