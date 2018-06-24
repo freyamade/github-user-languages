@@ -98,7 +98,7 @@ export class Data {
     let repoData: object = {};
     const headerRegex = /\<(.*)\>; rel="next"/;
     // Use Promise.resolve to wait for the result
-    let response = await fetch(url)
+    let response = await fetch(url);
     linkHeader = response.headers.get('link');
     let data = await response.json();
     // From this JSON response, compile repoData (to reduce memory usage) and then see if there's more to fetch
@@ -107,7 +107,7 @@ export class Data {
     url = this.getNextUrlFromHeader(linkHeader);
     while (url !== null) {
       // Send a request and update the repo data again
-      let response = await fetch(url)
+      response = await fetch(url);
       linkHeader = response.headers.get('link');
       data = await response.json();
       repoData = this.updateRepoData(repoData, data);
