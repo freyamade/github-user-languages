@@ -46,7 +46,7 @@ I'm also not that great at writing READMEs so help with this one would be very w
 Also I've put a claim down for a logo as part of the [openlogos](https://github.com/arasatasaygin/openlogos/) project, so if you want to help the project get a cool logo, go give my comment a thumbs up over [here](https://github.com/arasatasaygin/openlogos/issues/12)! :+1:
 
 ### Development Process
-1. Clone the repo and install the dependencies with `npm install`
+1. Fork the repo, download your fork and install the dependencies with `npm install`
 2. Run `npm run watch` to start the watch and build process
   - This will build the TypeScript into `dist/js`
 3. Visit `chrome://extensions` in your browser
