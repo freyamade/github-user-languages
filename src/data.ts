@@ -28,7 +28,7 @@ export class Data {
 
   private getColorData() : Promise<JSON> {
     const url = chrome.runtime.getURL('colors.json');
-      return fetch(url).then((response) => response.json() );
+    return fetch(url).then((response) => response.json() );
   }
 
   private checkCache() : Promise<ICachedData> {
@@ -97,7 +97,7 @@ export class Data {
     // Use Promise.resolve to wait for the result
     let data = await fetch(url).then((response) => {
       linkHeader = response.headers.get('link');
-      return response.json()
+      return response.json();
     });
     // From this JSON response, compile repoData (to reduce memory usage) and then see if there's more to fetch
     repoData = this.updateRepoData(repoData, data);
@@ -107,7 +107,7 @@ export class Data {
       // Send a request and update the repo data again
       data = await fetch(url).then((response) => {
         linkHeader = response.headers.get('link');
-        return response.json()
+        return response.json();
       });
       repoData = this.updateRepoData(repoData, data);
       url = this.getNextUrlFromHeader(linkHeader);
