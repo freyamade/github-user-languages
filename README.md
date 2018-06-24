@@ -58,10 +58,14 @@ Also I've put a claim down for a logo as part of the [openlogos](https://github.
 #### Notes
 - Whenever you make changes to the extension, the JS will compile automatically but you'll need to click the little circle arrow on `chrome://extensions` to reload the extension
 - It's probably a good idea to turn off the release version while you're doing development so they don't mess with eachother
-- If you want to turn off caching while in development, simply add `reject()` as the first line of the Promise in `data.ts` line 36
+- If you want to turn off caching while in development, simply uncomment the `return reject();` at line 37 of `data.ts`
 
 ## Boilerplate
 Boilerplate used to set up this project can be found at https://github.com/chibat/chrome-extension-typescript-starter
+
+## Contributors
+- [crnbrdrck](https://github.com/crnbrdrck): Creator, maintainer
+- [Strum355](https://github.com/strum355): Cleaned up promises with async + await, all round TypeScript mentor
 
 ## License
 MIT
