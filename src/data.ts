@@ -26,9 +26,9 @@ export class Data {
     return Promise.all([this.getColorData(), this.getRepoData()]);
   }
 
-  private getColorData() : Promise<JSON> {
+  private async getColorData() : Promise<JSON> {
     const url = chrome.runtime.getURL('colors.json');
-    return fetch(url).then((response) => response.json());
+    return (await fetch(url)).json();
   }
 
   private checkCache() : Promise<ICachedData> {
@@ -97,20 +97,18 @@ export class Data {
     let repoData: object = {};
     const headerRegex = /\<(.*)\>; rel="next"/;
     // Use Promise.resolve to wait for the result
-    let data = await fetch(url).then((response) => {
-      linkHeader = response.headers.get('link');
-      return response.json();
-    });
+    let response = await fetch(url)
+    linkHeader = response.headers.get('link');
+    let data = await response.json();
     // From this JSON response, compile repoData (to reduce memory usage) and then see if there's more to fetch
     repoData = this.updateRepoData(repoData, data);
     // Now loop through the link headers, fetching more data and updating the repos dict
     url = this.getNextUrlFromHeader(linkHeader);
     while (url !== null) {
       // Send a request and update the repo data again
-      data = await fetch(url).then((response) => {
-        linkHeader = response.headers.get('link');
-        return response.json();
-      });
+      let response = await fetch(url)
+      linkHeader = response.headers.get('link');
+      data = await response.json();
       repoData = this.updateRepoData(repoData, data);
       url = this.getNextUrlFromHeader(linkHeader);
     }
