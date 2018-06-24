@@ -38,14 +38,16 @@ export class Data {
         // If the data isn't there, result will be an empty object
         if (Object.keys(result).length < 1) {
           // If we get to this point, there was nothing in cache or the cache was invalid
-          reject();
+          return reject();
         }
         // We have a cached object, so check time of cache
         const cachedData = result[this.username];
         if (new Date().valueOf() - cachedData.cachedAt < CACHE_THRESHOLD) {
           // We can use the cached version
-          resolve(cachedData);
+          return resolve(cachedData);
         }
+
+        return reject();
       });
     });
   }
