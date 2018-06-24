@@ -34,7 +34,6 @@ export class Data {
   private checkCache() : Promise<ICachedData> {
     // Create a promise to retrieve the key from cache, or reject if it's not there
     return new Promise((resolve, reject) => {
-        reject(); // Temp turn off caching for debugging issues
       chrome.storage.local.get([this.username], (result) => {
         // If the data isn't there, result will be an empty object
         if (Object.keys(result).length > 0) {
