@@ -28,7 +28,7 @@ export class Data {
 
   private getColorData() : Promise<JSON> {
     const url = chrome.runtime.getURL('colors.json');
-    return fetch(url).then((response) => response.json() );
+    return fetch(url).then((response) => response.json());
   }
 
   private checkCache() : Promise<ICachedData> {
