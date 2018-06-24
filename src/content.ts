@@ -20,9 +20,14 @@ class LanguageDisplay {
     }
     this.canvas = null;
     this.container = null;
+    this.getData();
+  }
+
+  private async getData(): Promise<any> {
     // Fetch the color data from the json file
     // Use the promise provided by the Data class to get all necessary data
-    this.data.getData().then((values) => {
+    try {
+      const values = await this.data.getData();
       // 0 -> color data, 1 -> repo data
       const colorData = values[0];
       const repoData = values[1];
@@ -30,9 +35,11 @@ class LanguageDisplay {
       if (!this.data.repoDataFromCache) {
         this.cacheData(repoData);
       }
-      // Build the graph
+        // Build the graph
       this.build(colorData, repoData);
-    }).catch((e) => console.error(`gh-user-langs: Error creating graph: ${e}`));
+    } catch (e) {
+      console.error(`gh-user-langs: Error creating graph: ${e}`);
+    }
   }
 
   private cacheData(data : object) {
