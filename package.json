@@ -1,6 +1,6 @@
 {
   "name": "github-user-languages",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A little Chrome Extension that draws a pie chart on GitHub User profiles detailing their language breakdown. Built with TypeScript and Chart.js.",
   "main": "index.js",
   "scripts": {

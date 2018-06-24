@@ -5,7 +5,7 @@
   "author": "crnbrdrck (Ciaran Broderick)",
   "short_name": "github-user-languages",
   "description": "Draws a pie chart on GitHub User profiles detailing their language breakdown.",
-  "version": "0.1.1",
+  "version": "0.1.2",
 
   "content_scripts": [{
     "matches": ["https://github.com/*"],
