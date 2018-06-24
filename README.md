@@ -63,5 +63,9 @@ Also I've put a claim down for a logo as part of the [openlogos](https://github.
 ## Boilerplate
 Boilerplate used to set up this project can be found at https://github.com/chibat/chrome-extension-typescript-starter
 
+## Contributors
+- [crnbrdrck](https://github.com/crnbrdrck): Creator, maintainer
+- [Strum355](https://github.com/strum355): Cleaned up promises with async + await, all round TypeScript mentor
+
 ## License
 MIT
