@@ -12,15 +12,18 @@ class LanguageDisplay {
 
   constructor(username : string) {
     this.username = username;
-    this.data = new Data(username);
     // Fetch the lang data now
     this.parent = document.querySelector('div[itemtype="http://schema.org/Person"]');
     // Handling for orgs
     if (this.parent === null) {
-      return;
+      // Org page, set the flag as such
+      this.isOrg = true;
+      this.parent = document.querySelector('div.col-4.float-right.pl-4');
+      console.log(this.parent);
     }
     this.canvas = null;
     this.container = null;
+    this.data = new Data(username, this.isOrg);
     this.getData();
   }
 
