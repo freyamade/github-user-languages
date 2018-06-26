@@ -59,12 +59,25 @@ class LanguageDisplay {
   }
 
   private createContainer() {
-    const div = document.createElement('div');
+    let div = document.createElement('div');
     const header = document.createElement('h4');
     const headerText = document.createTextNode('Languages');
     header.appendChild(headerText);
-    div.classList.add('border-top', 'py-3', 'clearfix');
-    header.classList.add('mb-1', 'h4');
+    if (this.isOrg) {
+      // Need to create an extra div for the Box-body class
+      const innerDiv = document.createElement('div');
+      // Set up the classes
+      innerDiv.classList.add('Box-body');
+      div.classList.add('Box', 'mb-3');
+      header.classList.add('f4', 'mb-2', 'text-normal');
+      // Add the inner div to the outer one and set the innerDiv to be the parent of the graph
+      div.appendChild(innerDiv);
+      div = innerDiv;
+    }
+    else {
+      div.classList.add('border-top', 'py-3', 'clearfix');
+      header.classList.add('mb-1', 'h4');
+    }
     div.appendChild(header);
     return div;
   }
