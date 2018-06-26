@@ -1,3 +1,6 @@
+# 0.1.4
+- Fixed issues with charts not displaying on Org pages
+
 # 0.1.3
 - Pie chart now displays on org pages as well as user pages
     - The chart is quite large on org pages because Chart.js tries to fill the container width wise and I've set the height to match the width

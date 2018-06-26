@@ -28,14 +28,14 @@ print(f'Bumping to v{new_ver}')
 data['version'] = new_ver
 
 with open('package.json', 'w') as f:
-    json.dump(data, f, sort_keys=True)
+    json.dump(data, f, sort_keys=True, indent=2)
 
 # Now the manifest file
 with open('dist/manifest.json') as f:
     data = json.load(f)
 data['version'] = new_ver
 with open('dist/manifest.json', 'w') as f:
-    json.dump(data, f, sort_keys=True)
+    json.dump(data, f, sort_keys=True, indent=2)
 
 # Also append the new version to the start of the CHANGELOG
 with open('CHANGELOG.md') as f:
