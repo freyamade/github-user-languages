@@ -1,5 +1,7 @@
 # 0.1.4
 - Fixed issues with charts not displaying on Org pages
+    - Also was an issue where my HTML wasn't correct on Org pages
+    - Somehow I think the two were related
 
 # 0.1.3
 - Pie chart now displays on org pages as well as user pages
