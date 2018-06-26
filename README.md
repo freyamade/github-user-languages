@@ -1,9 +1,9 @@
 # GitHub User Languages [![Travis branch](https://img.shields.io/travis/crnbrdrck/github-user-languages/master.svg)](https://travis-ci.org/crnbrdrck/github-user-languages)
 
 
-A little Chrome Extension that draws a pie chart on GitHub User profiles detailing their language breakdown. Built with TypeScript, Chart.js and :heart:.
+A little Chrome Extension that draws a pie chart on GitHub User / Org profiles detailing their language breakdown. Built with TypeScript, Chart.js and :heart:.
 
-Recently, I have wanted a little graph that shows the language breakdown of a user right on their profile.
+Recently, I have wanted a little graph that shows the language breakdown of a user or organisation right on their profile.
 
 So I decided to make just that!
 
@@ -12,8 +12,6 @@ So I decided to make just that!
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/kikdmnikeponomghepmfipgiijlmfhfl.svg)](https://chrome.google.com/webstore/detail/github-user-languages/kikdmnikeponomghepmfipgiijlmfhfl)
 
 Click the badge to be taken to the web store page for this plugin!
-
-
 
 ### Firefox
 Firefox version is planned but currently not even started, although I doubt there'll be much to change.
@@ -27,12 +25,15 @@ All the colours are pulled from GitHub's official language colours, and hovering
 
 Also, by clicking on one of the segments, you can be redirected to a list of repos by that user in that language!
 
+The same now works for [Orgs](https://github.com/github)
+
 ## Roadmap
 
 - [x] Draw the pie chart
 - [x] Design an extension icon (have added a basic one but have put a claim in for one of the `openlogos` logos too)
 - [x] Make it available on the chrome store
 - [x] Add storage of data for users to avoid over-using the Github API and getting rate limited
+- [x] Add org page handling
 - [ ] Add some control over the cache for users (i.e setting timeouts, force cache invalidation, etc)
 - [ ] Create a version for Firefox browsers
 

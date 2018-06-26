@@ -3,23 +3,27 @@ import { Chart } from 'chart.js';
 import { Data } from './data';
 
 class LanguageDisplay {
-  private username : string;
-  private data : Data;
-  private parent : HTMLDivElement;
-  private container : HTMLDivElement;
   private canvas : HTMLCanvasElement;
+  private container : HTMLDivElement;
+  private data : Data;
+  private isOrg : boolean = false;
+  private parent : HTMLDivElement;
+  private username : string;
 
   constructor(username : string) {
     this.username = username;
-    this.data = new Data(username);
     // Fetch the lang data now
     this.parent = document.querySelector('div[itemtype="http://schema.org/Person"]');
     // Handling for orgs
     if (this.parent === null) {
-      return;
+      // Org page, set the flag as such
+      this.isOrg = true;
+      this.parent = document.querySelector('div.col-4.float-right.pl-4');
+      console.log(this.parent);
     }
     this.canvas = null;
     this.container = null;
+    this.data = new Data(username, this.isOrg);
     this.getData();
   }
 
@@ -55,12 +59,25 @@ class LanguageDisplay {
   }
 
   private createContainer() {
-    const div = document.createElement('div');
+    let div = document.createElement('div');
     const header = document.createElement('h4');
     const headerText = document.createTextNode('Languages');
     header.appendChild(headerText);
-    div.classList.add('border-top', 'py-3', 'clearfix');
-    header.classList.add('mb-1', 'h4');
+    if (this.isOrg) {
+      // Need to create an extra div for the Box-body class
+      const innerDiv = document.createElement('div');
+      // Set up the classes
+      innerDiv.classList.add('Box-body');
+      div.classList.add('Box', 'mb-3');
+      header.classList.add('f4', 'mb-2', 'text-normal');
+      // Add the inner div to the outer one and set the innerDiv to be the parent of the graph
+      div.appendChild(innerDiv);
+      div = innerDiv;
+    }
+    else {
+      div.classList.add('border-top', 'py-3', 'clearfix');
+      header.classList.add('mb-1', 'h4');
+    }
     div.appendChild(header);
     return div;
   }

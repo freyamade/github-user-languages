@@ -14,10 +14,12 @@ interface IAPIRepoData {
 
 export class Data {
   public repoDataFromCache : boolean = false;
+  private isOrg : boolean;
   private username : string;
 
-  constructor(username : string) {
+  constructor(username : string, isOrg : boolean) {
     this.username = username;
+    this.isOrg = isOrg;
   }
 
   public getData() : Promise<object[]> {
@@ -93,7 +95,8 @@ export class Data {
 
   // Fetch repository data from the API
   private async fetchRepoData() : Promise<object> {
-    let url = `https://api.github.com/users/${this.username}/repos?page=1&per_page=50`;
+    const apiSection = this.isOrg ? 'orgs' : 'users';
+    let url = `https://api.github.com/${apiSection}/${this.username}/repos?page=1&per_page=50`;
     let linkHeader : string;
     let repoData: object = {};
     const headerRegex = /\<(.*)\>; rel="next"/;

@@ -22,3 +22,5 @@ rules:
   typedef-whitespace:
     - onespace
     - onespace
+  one-line:
+    - false
