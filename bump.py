@@ -1,3 +1,5 @@
+"""Simple script to handle the versioning for me to ensure I don't miss a version"""
+
 import json
 
 # Get the version to bump
