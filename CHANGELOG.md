@@ -1,5 +1,7 @@
 # 0.1.3
 - Pie chart now displays on org pages as well as user pages
+    - The chart is quite large on org pages because Chart.js tries to fill the container width wise and I've set the height to match the width
+    - If this is a problem, please open an issue and we can discuss this further
 
 # 0.1.2
 - Added checks to ensure that the extension pulls all of a user's repos using GitHub's pagination
