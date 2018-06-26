@@ -7,6 +7,8 @@ class LanguageDisplay {
   private container : HTMLDivElement;
   private data : Data;
   private isOrg : boolean = false;
+  // Special extra div that the canvas needs to be drawn into on org pages
+  private orgDiv: HTMLDivElement;
   private parent : HTMLDivElement;
   private username : string;
 
@@ -59,26 +61,26 @@ class LanguageDisplay {
   }
 
   private createContainer() {
-    let div = document.createElement('div');
+    const div = document.createElement('div');
     const header = document.createElement('h4');
     const headerText = document.createTextNode('Languages');
     header.appendChild(headerText);
     if (this.isOrg) {
       // Need to create an extra div for the Box-body class
-      const innerDiv = document.createElement('div');
+      this.orgDiv = document.createElement('div');
       // Set up the classes
-      innerDiv.classList.add('Box-body');
+      this.orgDiv.classList.add('Box-body');
       div.classList.add('Box', 'mb-3');
       header.classList.add('f4', 'mb-2', 'text-normal');
-      // Add the inner div to the outer one and set the innerDiv to be the parent of the graph
-      div.appendChild(innerDiv);
-      div = innerDiv;
+      // Add the inner div to the outer one
+      this.orgDiv.appendChild(header);
+      div.appendChild(this.orgDiv);
     }
     else {
       div.classList.add('border-top', 'py-3', 'clearfix');
       header.classList.add('mb-1', 'h4');
+      div.appendChild(header);
     }
-    div.appendChild(header);
     return div;
   }
 
@@ -102,7 +104,12 @@ class LanguageDisplay {
     // Get the width and height of the container and use it to build the canvas
     const width = +(window.getComputedStyle(this.container).width.split('px')[0]);
     this.canvas = this.createCanvas(width);
-    this.container.appendChild(this.canvas);
+    if (this.isOrg) {
+      this.orgDiv.appendChild(this.canvas);
+    }
+    else {
+      this.container.appendChild(this.canvas);
+    }
     // Now draw the chart
     this.draw(colorData, repoData);
   }
