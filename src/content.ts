@@ -3,11 +3,12 @@ import { Chart } from 'chart.js';
 import { Data } from './data';
 
 class LanguageDisplay {
-  private username : string;
-  private data : Data;
-  private parent : HTMLDivElement;
-  private container : HTMLDivElement;
   private canvas : HTMLCanvasElement;
+  private container : HTMLDivElement;
+  private data : Data;
+  private isOrg : boolean = false;
+  private parent : HTMLDivElement;
+  private username : string;
 
   constructor(username : string) {
     this.username = username;
