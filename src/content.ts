@@ -61,7 +61,7 @@ class LanguageDisplay {
   }
 
   private createContainer() {
-    let div = document.createElement('div');
+    const div = document.createElement('div');
     const header = document.createElement('h4');
     const headerText = document.createTextNode('Languages');
     header.appendChild(headerText);
@@ -104,7 +104,7 @@ class LanguageDisplay {
     // Get the width and height of the container and use it to build the canvas
     const width = +(window.getComputedStyle(this.container).width.split('px')[0]);
     this.canvas = this.createCanvas(width);
-    if(this.isOrg) {
+    if (this.isOrg) {
       this.orgDiv.appendChild(this.canvas);
     }
     else {
