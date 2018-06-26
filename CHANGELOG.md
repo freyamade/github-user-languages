@@ -1,3 +1,6 @@
+# 0.1.3
+- Pie chart now displays on org pages as well as user pages
+
 # 0.1.2
 - Added checks to ensure that the extension pulls all of a user's repos using GitHub's pagination
     - Previously the extension would only get the first 30 repos created by the user
