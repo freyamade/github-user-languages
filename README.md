@@ -50,7 +50,7 @@ Also I've put a claim down for a logo as part of the [openlogos](https://github.
 ### Development Process
 1. Fork the repo, download your fork and install the dependencies with `npm install`
 2. Run `npm run watch` to start the watch and build process
-  - This will build the TypeScript into `dist/js`
+    - This will build the TypeScript into `dist/js`
 3. Visit `chrome://extensions` in your browser
 4. Turn on Developer Mode
 5. Click `Load Unpacked`
