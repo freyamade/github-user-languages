@@ -32,7 +32,6 @@ The same now works for [Orgs](https://github.com/github)
 ## Roadmap
 
 - [x] Draw the pie chart
-- [x] Design an extension icon (have added a basic one but have put a claim in for one of the `openlogos` logos too)
 - [x] Make it available on the chrome store
 - [x] Add storage of data for users to avoid over-using the Github API and getting rate limited
 - [x] Add org page handling
@@ -46,8 +45,6 @@ Contributing doesn't just mean writing code!
 If you think of anything that could benefit the project, open up an [issue](https://github.com/crnbrdrck/github-user-langs/issues).
 
 I'm also not that great at writing READMEs so help with this one would be very welcome!
-
-Also I've put a claim down for a logo as part of the [openlogos](https://github.com/arasatasaygin/openlogos/) project, so if you want to help the project get a cool logo, go give my comment a thumbs up over [here](https://github.com/arasatasaygin/openlogos/issues/12)! :+1:
 
 ### Development Process
 1. Fork the repo, download your fork and install the dependencies with `npm install`
