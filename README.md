@@ -67,7 +67,7 @@ Boilerplate used to set up this project can be found at https://github.com/chiba
 ## Contributors
 - [crnbrdrck](https://github.com/crnbrdrck): Creator, maintainer
 - [Strum355](https://github.com/strum355): Cleaned up promises with async + await, all round TypeScript mentor
-- [ihtiht](https://github.com/ihtiht): Designer
+- [ihtiht](https://github.com/ihtiht): Designer of the amazing logo :heart:
 
 ## License
 MIT
