@@ -1,4 +1,4 @@
-<h1 align="center"> <br><img src="src/img/logotype_horizontal.png?raw=true" alt="nabo" width="512"> <br>
+![GitHub User Languages Logo](./img/logotype_horizontal.png?raw=true)
 
 # GitHub User Languages [![Travis branch](https://img.shields.io/travis/crnbrdrck/github-user-languages/master.svg)](https://travis-ci.org/crnbrdrck/github-user-languages)
 
@@ -70,7 +70,7 @@ Boilerplate used to set up this project can be found at https://github.com/chiba
 ## Contributors
 - [crnbrdrck](https://github.com/crnbrdrck): Creator, maintainer
 - [Strum355](https://github.com/strum355): Cleaned up promises with async + await, all round TypeScript mentor
-- [ihtiht](https://github.com/ihtiht) : Desinger
+- [ihtiht](https://github.com/ihtiht): Designer
 
 ## License
 MIT
