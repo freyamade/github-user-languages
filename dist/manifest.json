@@ -14,7 +14,7 @@
       ]
     }
   ],
-  "description": "Draws a pie chart on GitHub User profiles detailing their language breakdown.",
+  "description": "See the language usage breakdown of a User or Org right on their GitHub profile page.",
   "icons": {
     "128": "images/github-user-languages.128.png"
   },
