@@ -21,7 +21,7 @@ Firefox version is planned but currently not even started, although I doubt ther
 ## Usage
 Just by having the extension installed, it's already working!
 
-Simply visit a User's profile page (why not [mine](https://github.com/crnbrdrck)?) and you'll see something to similar to the following image on the left sidebar: ![github-user-languages demo](./demo.png)
+Simply visit a User's profile page (why not [mine](https://github.com/crnbrdrck)?) and you'll see something to similar to the following image on the left sidebar: ![github-user-languages demo](./img/demo.png)
 
 All the colours are pulled from GitHub's official language colours, and hovering over any section will tell you the language and how many repos the user has made in that language. Simple! :smile:
 
