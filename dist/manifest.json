@@ -1,5 +1,8 @@
 {
   "author": "crnbrdrck (Ciaran Broderick)",
+  "browser_action": {
+    "default_icon": "images/github-user-languages.128.png"
+  },
   "content_scripts": [
     {
       "js": [
@@ -13,10 +16,7 @@
   ],
   "description": "Draws a pie chart on GitHub User profiles detailing their language breakdown.",
   "icons": {
-    "128": "images/github-user-languages.128.png",
-    "16": "images/github-user-languages.16.png",
-    "32": "images/github-user-languages.32.png",
-    "48": "images/github-user-languages.48.png"
+    "128": "images/github-user-languages.128.png"
   },
   "manifest_version": 2,
   "name": "GitHub User Languages",
