@@ -1,3 +1,6 @@
+# 0.1.5
+- New logo courtesy of [ihtiht](https://github.com/ihtiht)!
+
 # 0.1.4
 - Fixed issues with charts not displaying on Org pages
     - Also was an issue where my HTML wasn't correct on Org pages

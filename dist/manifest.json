@@ -24,7 +24,7 @@
     "storage"
   ],
   "short_name": "github-user-languages",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "web_accessible_resources": [
     "colors.json"
   ]
