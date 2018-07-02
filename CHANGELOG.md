@@ -1,3 +1,10 @@
+# 0.1.7
+- Added simple settings popup
+    - Allows for turning on and off the chart legend on all pages
+    - Allows adding a GitHub personal access token to allow more API usage
+    - Simply click on the icon in the toolbar to access the settings popup
+- Extension now opens a tab briging you here so you can see new changes
+
 # 0.1.6
 - Added error handling for when querying the API goes wrong
 

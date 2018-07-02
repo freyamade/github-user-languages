@@ -25,8 +25,12 @@ class LanguageDisplay {
     }
     this.canvas = null;
     this.container = null;
-    this.data = new Data(username, this.isOrg);
-    this.getData();
+    // Get the personal access token from sync storage and fetch data
+    chrome.storage.sync.get(['personalAccessToken'], (result) => {
+      const token = result.personalAccessToken || '';
+      this.data = new Data(username, this.isOrg, token);
+      this.getData();
+    });
   }
 
   private async getData(): Promise<any> {
@@ -120,11 +124,14 @@ class LanguageDisplay {
     else {
       this.container.appendChild(this.canvas);
     }
-    // Now draw the chart
-    this.draw(colorData, repoData);
+    // Get whether or not we should draw the legend from the sync storage and draw the chart
+    chrome.storage.sync.get(['showLegend'], (result) => {
+      const showLegend = result.showLegend || false;
+      this.draw(colorData, repoData, showLegend);
+    });
   }
 
-  private draw(colorData: object, repoData: object) {
+  private draw(colorData: object, repoData: object, showLegend: boolean) {
     // Create the pie chart and populate it with the repo data
     const counts = [];
     const colors = [];
@@ -148,7 +155,7 @@ class LanguageDisplay {
       },
       options: {
         legend: {
-          display: false,
+          display: showLegend,
         },
       },
       type: 'pie',
@@ -164,6 +171,15 @@ class LanguageDisplay {
       // Redirect to the user's list of that language
       window.location.href = `https://github.com/${this.username}?tab=repositories&language=${language}`;
     };
+
+    // Set up a listener for changes to the `showLegend` key of storage
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      if ('showLegend' in changes) {
+        // Update the chart to set the legend display to the newValue of the storage
+        chart.options.legend.display = changes.showLegend.newValue;
+        chart.update();
+      }
+    });
   }
 
 }
