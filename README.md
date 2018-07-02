@@ -42,7 +42,7 @@ The same now works for [Orgs](https://github.com/github)
 ## Want to Contribute?
 Contributing doesn't just mean writing code!
 
-If you think of anything that could benefit the project, open up an [issue](https://github.com/crnbrdrck/github-user-langs/issues).
+If you think of anything that could benefit the project, open up an [issue](https://github.com/crnbrdrck/github-user-languages/issues).
 
 I'm also not that great at writing READMEs so help with this one would be very welcome!
 
