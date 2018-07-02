@@ -1,3 +1,6 @@
+# 0.1.6
+- Added error handling for when querying the API goes wrong
+
 # 0.1.5
 - New logo courtesy of [ihtiht](https://github.com/ihtiht)!
 

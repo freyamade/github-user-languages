@@ -1,6 +1,6 @@
 ![GitHub User Languages Logo](./img/logotype_horizontal.png?raw=true)
 
-[![Travis branch](https://img.shields.io/travis/crnbrdrck/github-user-languages/master.svg)](https://travis-ci.org/crnbrdrck/github-user-languages)
+[![Travis branch](https://img.shields.io/travis/crnbrdrck/github-user-languages/master.svg?style=flat-square)](https://travis-ci.org/crnbrdrck/github-user-languages)
 
 A little Chrome Extension that draws a pie chart on GitHub User / Org profiles detailing their language breakdown. Built with TypeScript, Chart.js and :heart:.
 
@@ -10,7 +10,7 @@ So I decided to make just that!
 
 ## Install
 ### Chrome
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/kikdmnikeponomghepmfipgiijlmfhfl.svg)](https://chrome.google.com/webstore/detail/github-user-languages/kikdmnikeponomghepmfipgiijlmfhfl)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/kikdmnikeponomghepmfipgiijlmfhfl.svg?style=flat-square)](https://chrome.google.com/webstore/detail/github-user-languages/kikdmnikeponomghepmfipgiijlmfhfl)
 
 Click the badge to be taken to the web store page for this plugin!
 
