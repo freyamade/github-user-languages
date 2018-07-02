@@ -1,6 +1,6 @@
 // Add listeners to the elements to do stuff when they are edited
-const chartLegendCheck: HTMLInputElement = <HTMLInputElement> document.getElementById('show-legend');
-const personalTokenInput: HTMLInputElement = <HTMLInputElement> document.getElementById('personal-access-token');
+const chartLegendCheck: HTMLInputElement = document.getElementById('show-legend') as HTMLInputElement;
+const personalTokenInput: HTMLInputElement = document.getElementById('personal-access-token') as HTMLInputElement;
 let showLegend: boolean;
 let personalAccessToken: string;
 // Get the old data of both of these values

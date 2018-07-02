@@ -102,7 +102,7 @@ export class Data {
     let linkHeader : string;
     let repoData: object = {};
     const headers: HeadersInit = {};
-    if (this.personalToken !== '') { headers.Authorization = `token ${this.personalToken}` }
+    if (this.personalToken !== '') { headers.Authorization = `token ${this.personalToken}` };
     const headerRegex = /\<(.*)\>; rel="next"/;
     // Use Promise.resolve to wait for the result
     let response = await fetch(url, {headers});

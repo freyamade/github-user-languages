@@ -128,7 +128,7 @@ class LanguageDisplay {
     chrome.storage.sync.get(['showLegend'], (result) => {
       const showLegend = result.showLegend || false;
       this.draw(colorData, repoData, showLegend);
-    })
+    });
   }
 
   private draw(colorData: object, repoData: object, showLegend: boolean) {
