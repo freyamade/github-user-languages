@@ -25,8 +25,12 @@ class LanguageDisplay {
     }
     this.canvas = null;
     this.container = null;
-    this.data = new Data(username, this.isOrg);
-    this.getData();
+    // Get the personal access token from sync storage and fetch data
+    chrome.storage.sync.get(['personalAccessToken'], (result) => {
+      const token = result.personalAccessToken || '';
+      this.data = new Data(username, this.isOrg, token);
+      this.getData();
+    });
   }
 
   private async getData(): Promise<any> {
