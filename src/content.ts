@@ -44,6 +44,16 @@ class LanguageDisplay {
         // Build the graph
       this.build(colorData, repoData);
     } catch (e) {
+      // This is where we need to add the error display
+      // Create the container, add it to the page and then add an error message to it
+      this.container = this.createContainer();
+      this.parent.appendChild(this.container);
+      // Create an error message
+      const errorMessage = document.createTextNode(
+        'An error occurred when fetching data from the GitHub API. This could be due to rate-limiting.' +
+        ' Please try again later or add a personal access token for increase API usage (coming soon).'
+      );
+      this.parent.appendChild(errorMessage);
       console.error(`gh-user-langs: Error creating graph: ${e}`);
     }
   }
