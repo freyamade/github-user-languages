@@ -21,4 +21,10 @@ chrome.storage.sync.get(['showLegend', 'personalAccessToken'], (result) => {
   // Now enable the inputs for user input
   chartLegendCheck.disabled = false;
   personalTokenInput.disabled = false;
-})
+});
+
+// Set up a listener for a click on the link to open a tab to generate a token
+const tokenUrl = 'https://github.com/settings/tokens/new?description=GitHub%20User%20Languages';
+document.getElementById('get-token').addEventListener('click', () => {
+  chrome.tabs.create({ url: tokenUrl });
+}, false);
