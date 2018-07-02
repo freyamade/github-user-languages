@@ -51,7 +51,7 @@ class LanguageDisplay {
       // Create an error message
       const errorMessage = document.createTextNode(
         'An error occurred when fetching data from the GitHub API. This could be due to rate-limiting.' +
-        ' Please try again later or add a personal access token for increase API usage (coming soon).'
+        ' Please try again later or add a personal access token for increase API usage (coming soon).',
       );
       this.parent.appendChild(errorMessage);
       console.error(`gh-user-langs: Error creating graph: ${e}`);
