@@ -171,6 +171,15 @@ class LanguageDisplay {
       // Redirect to the user's list of that language
       window.location.href = `https://github.com/${this.username}?tab=repositories&language=${language}`;
     };
+
+    // Set up a listener for changes to the `showLegend` key of storage
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      if ('showLegend' in changes) {
+        // Update the chart to set the legend display to the newValue of the storage
+        chart.options.legend.display = changes.showLegend.newValue;
+        chart.update();
+      }
+    });
   }
 
 }
