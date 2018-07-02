@@ -15,11 +15,13 @@ interface IAPIRepoData {
 export class Data {
   public repoDataFromCache : boolean = false;
   private isOrg : boolean;
+  private personalToken : string;
   private username : string;
 
-  constructor(username : string, isOrg : boolean) {
+  constructor(username : string, isOrg : boolean, token : string) {
     this.username = username;
     this.isOrg = isOrg;
+    this.personalToken = token;
   }
 
   public getData() : Promise<object[]> {
@@ -99,9 +101,11 @@ export class Data {
     let url = `https://api.github.com/${apiSection}/${this.username}/repos?page=1&per_page=50`;
     let linkHeader : string;
     let repoData: object = {};
+    const headers: HeadersInit = {};
+    if (this.personalToken !== '') { headers.Authorization = `token ${this.personalToken}` }
     const headerRegex = /\<(.*)\>; rel="next"/;
     // Use Promise.resolve to wait for the result
-    let response = await fetch(url);
+    let response = await fetch(url, {headers});
     linkHeader = response.headers.get('link');
     let data = await response.json();
     // From this JSON response, compile repoData (to reduce memory usage) and then see if there's more to fetch
@@ -110,7 +114,7 @@ export class Data {
     url = this.getNextUrlFromHeader(linkHeader);
     while (url !== null) {
       // Send a request and update the repo data again
-      response = await fetch(url);
+      response = await fetch(url, {headers});
       linkHeader = response.headers.get('link');
       data = await response.json();
       repoData = this.updateRepoData(repoData, data);
