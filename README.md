@@ -34,6 +34,7 @@ The same now works for [Orgs](https://github.com/github)
 - [x] Make it available on the chrome store
 - [x] Add storage of data for users to avoid over-using the Github API and getting rate limited
 - [x] Add org page handling
+- [x] Basic settings
 - [ ] Add some control over the cache for users (i.e setting timeouts, force cache invalidation, etc)
 - [ ] Give some time for issues in Chrome version to be dealt with
 - [ ] Create a version for Firefox browsers
