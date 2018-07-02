@@ -120,11 +120,14 @@ class LanguageDisplay {
     else {
       this.container.appendChild(this.canvas);
     }
-    // Now draw the chart
-    this.draw(colorData, repoData);
+    // Get whether or not we should draw the legend from the sync storage and draw the chart
+    chrome.storage.sync.get(['showLegend'], (result) => {
+      const showLegend = result.showLegend || false;
+      this.draw(colorData, repoData, showLegend);
+    })
   }
 
-  private draw(colorData: object, repoData: object) {
+  private draw(colorData: object, repoData: object, showLegend: boolean) {
     // Create the pie chart and populate it with the repo data
     const counts = [];
     const colors = [];
@@ -148,7 +151,7 @@ class LanguageDisplay {
       },
       options: {
         legend: {
-          display: false,
+          display: showLegend,
         },
       },
       type: 'pie',
