@@ -1,6 +1,7 @@
 """Simple script to handle the versioning for me to ensure I don't miss a version"""
 
 import json
+import subprocess
 
 # Get the version to bump
 while True:
@@ -45,3 +46,7 @@ with open('CHANGELOG.md') as f:
 lines = [f'# {new_ver}', '\n', '\n'] + lines
 with open('CHANGELOG.md', 'w') as f:
     f.write(''.join(lines))
+
+# Also run sed on the popup.html file to change the version in the popup
+cmd = ['sed', '-i', f's/v{old_ver}/v{new_ver}/', 'dist/popup.html']
+subprocess.run(cmd)

@@ -1,6 +1,6 @@
 // This script is excuted directly from inside the page
 import { Chart } from 'chart.js';
-import { Data } from './data';
+import { Data, ICachedData, IColorData, IRepoData } from './data';
 
 class LanguageDisplay {
   private canvas : HTMLCanvasElement;
@@ -21,7 +21,6 @@ class LanguageDisplay {
       // Org page, set the flag as such
       this.isOrg = true;
       this.parent = document.querySelector('div.col-4.float-right.pl-4');
-      console.log(this.parent);
     }
     this.canvas = null;
     this.container = null;
@@ -33,19 +32,23 @@ class LanguageDisplay {
     });
   }
 
-  private async getData(): Promise<any> {
+  private async getData() {
     // Fetch the color data from the json file
     // Use the promise provided by the Data class to get all necessary data
     try {
       const values = await this.data.getData();
       // 0 -> color data, 1 -> repo data
-      const colorData = values[0];
-      const repoData = values[1];
+      const colorData: IColorData = values[0];
+      const repoData: IRepoData = values[1];
+      // If the repoData is empty, don't go any further
+      if (this.data.emptyAccount) {
+        return;
+      }
       // Cache the repoData we just got, if we need to
       if (!this.data.repoDataFromCache) {
         this.cacheData(repoData);
       }
-        // Build the graph
+      // Build the graph
       this.build(colorData, repoData);
     } catch (e) {
       // This is where we need to add the error display
@@ -62,10 +65,10 @@ class LanguageDisplay {
     }
   }
 
-  private cacheData(data : object) {
+  private cacheData(data : IRepoData) {
     // Store the repo data in the cache for the username
-    const cachedAt = new Date().valueOf();
-    const value = {
+    const cachedAt: number = new Date().valueOf();
+    const value: ICachedData = {
       cachedAt,
       data,
     };
@@ -112,7 +115,7 @@ class LanguageDisplay {
     return canvas;
   }
 
-  private build(colorData : object, repoData : object) {
+  private build(colorData : IColorData, repoData : IRepoData) {
     this.container = this.createContainer();
     this.parent.appendChild(this.container);
     // Get the width and height of the container and use it to build the canvas
@@ -131,7 +134,7 @@ class LanguageDisplay {
     });
   }
 
-  private draw(colorData: object, repoData: object, showLegend: boolean) {
+  private draw(colorData: IColorData, repoData: IRepoData, showLegend: boolean) {
     // Create the pie chart and populate it with the repo data
     const counts = [];
     const colors = [];
@@ -184,12 +187,20 @@ class LanguageDisplay {
 
 }
 
+// Get the profile name for the current page, if the current page is an account page
 // The profile name will get retrieved from location.pathname
-const path = window.location.pathname.substr(1);
-// It's the profile page if path.split(/).length is 1 or its 2 but the last item is the empty string
-// This is a workaround until I can fix the issue with matching trailing slashes in the manifest file
+let profileName : string | null = null;
+let path = window.location.pathname.substr(1);
+// Trim the trailing slash if there is one
+if (path[path.length - 1] === "/") {
+  path = path.slice(0, -1);
+}
+// The page is correct if the length of path.split is 1 and the first item isn't the empty string
 const splitPath = path.split('/');
-if (splitPath.length === 1 || (splitPath.length === 2 && splitPath[1] === '')) {
-  const profileName = splitPath[0];
+if (splitPath.length === 1 && splitPath[0].length !== 0) {
+  profileName = splitPath[0];
+}
+// If profileName is not null, draw the chart
+if (profileName !== null) {
   const graph = new LanguageDisplay(profileName);
 }
