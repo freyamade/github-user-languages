@@ -187,7 +187,9 @@ class LanguageDisplay {
 
 }
 
+// Get the profile name for the current page, if the current page is an account page
 // The profile name will get retrieved from location.pathname
+let profileName : string | null = null;
 let path = window.location.pathname.substr(1);
 // Trim the trailing slash if there is one
 if (path[path.length - 1] === "/") {
@@ -196,6 +198,9 @@ if (path[path.length - 1] === "/") {
 // The page is correct if the length of path.split is 1 and the first item isn't the empty string
 const splitPath = path.split('/');
 if (splitPath.length === 1 && splitPath[0].length !== 0) {
-  const profileName = splitPath[0];
+  profileName = splitPath[0];
+}
+// If profileName is not null, draw the chart
+if (profileName !== null) {
   const graph = new LanguageDisplay(profileName);
 }
