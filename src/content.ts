@@ -41,7 +41,9 @@ class LanguageDisplay {
       const colorData: IColorData = values[0];
       const repoData: IRepoData = values[1];
       // If the repoData is empty, don't go any further
-      if(this.data.emptyAccount) return;
+      if (this.data.emptyAccount) {
+        return;
+      }
       // Cache the repoData we just got, if we need to
       if (!this.data.repoDataFromCache) {
         this.cacheData(repoData);
