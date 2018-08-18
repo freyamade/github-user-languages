@@ -55,7 +55,7 @@ I'm also not that great at writing READMEs so help with this one would be very w
 #### Notes
 - Whenever you make changes to the extension, the JS will compile automatically but you'll need to click the little circle arrow on `chrome://extensions` to reload the extension
 - It's probably a good idea to turn off the release version while you're doing development so they don't mess with eachother
-- If you want to turn off caching while in development, simply uncomment the `return reject();` at line 37 of `data.ts`
+- If you want to turn off caching while in development, simply uncomment the `return reject();` at line 50 of `data.ts`
 
 ## Boilerplate
 Boilerplate used to set up this project can be found at https://github.com/chibat/chrome-extension-typescript-starter
