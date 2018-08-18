@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <style>
         body {
             width: 400px;
         }
+        body, input[type="text"] {
+            font-family: "Lato", sans-serif;
+            font-weight: 400;
+        }
         input[type="text"] {
-            width: 100%;
+            width: 90%;
+        }
+        input[type="checkbox"] {
+            vertical-align: middle;
         }
     </style>
 </head>
 <body>
-    <h3>GitHub User Languages Settings</h3>
-    <hr />
-    <input type="checkbox" id="show-legend" disabled />
-    <label for="show-legend">Show Legend In Chart</label>
-    <hr />
-    <input type="text" id="personal-access-token" disabled />
-    <label for="personal-access-token">Personal Access Token <small>Click out of input to save</small>.</label>
-    <p><a id="get-token" href="#">Click here</a> to generate one. These are used to increase the number of API requests you make.</p>
+    <header>
+        <img src="https://github.com/crnbrdrck/github-user-languages/raw/master/img/logotype_horizontal.png" alt="gh-user-langs logo" width="400" height="92" />
+    </header>
+    <main>
+        <h4>Chart Settings</h4>
+        <input type="checkbox" id="show-legend" disabled />
+        <label for="show-legend"><span>Show Legend</span></label>
+
+        <h4>API Token <small>Click out of input to save</small></h4>
+        <label for="personal-access-token">Token</label>
+        <input type="text" id="personal-access-token" disabled />
+        <p><a id="get-token" href="#">Click here</a> to generate one. These are used to increase the number of API requests you make.</p>
+    </main>
     <script src="js/popup.js"></script>
 </body>
 </html>
