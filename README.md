@@ -28,16 +28,12 @@ Also, by clicking on one of the segments, you can be redirected to a list of rep
 
 The same now works for [Orgs](https://github.com/github)
 
-## Roadmap
+## Chrome v1 Major Release
+As far as I can tell, I think the extension is ready for a full release now.
 
-- [x] Draw the pie chart
-- [x] Make it available on the chrome store
-- [x] Add storage of data for users to avoid over-using the Github API and getting rate limited
-- [x] Add org page handling
-- [x] Basic settings
-- [ ] Add some control over the cache for users (i.e setting timeouts, force cache invalidation, etc)
-- [ ] Give some time for issues in Chrome version to be dealt with
-- [ ] Create a version for Firefox browsers
+I'm going to give it until the end of August for any bugs to come in (I might post it on Reddit or something) and then I'll mark the release as v1.0.0
+
+After that, I might write a Firefox version too, who knows?
 
 ## Want to Contribute?
 Contributing doesn't just mean writing code!
