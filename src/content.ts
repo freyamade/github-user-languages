@@ -190,7 +190,7 @@ const path = window.location.pathname.substr(1);
 // It's the profile page if path.split(/).length is 1 or its 2 but the last item is the empty string
 // This is a workaround until I can fix the issue with matching trailing slashes in the manifest file
 const splitPath = path.split('/');
-if (splitPath.length === 1 || (splitPath.length === 2 && splitPath[1] === '')) {
+if (path !== "" && splitPath.length === 1 || (splitPath.length === 2 && splitPath[1] === '')) {
   const profileName = splitPath[0];
   const graph = new LanguageDisplay(profileName);
 }
