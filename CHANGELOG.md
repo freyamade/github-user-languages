@@ -1,5 +1,5 @@
 # 0.1.8 (latest)
-
+- Removed the opening of this page when an update is installed
 
 # 0.1.7
 - Added simple settings popup
