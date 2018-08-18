@@ -1,6 +1,6 @@
 // This script is excuted directly from inside the page
 import { Chart } from 'chart.js';
-import { Data } from './data';
+import { Data, ICachedData, IColorData, IRepoData } from './data';
 
 class LanguageDisplay {
   private canvas : HTMLCanvasElement;
@@ -32,19 +32,21 @@ class LanguageDisplay {
     });
   }
 
-  private async getData(): Promise<any> {
+  private async getData() {
     // Fetch the color data from the json file
     // Use the promise provided by the Data class to get all necessary data
     try {
       const values = await this.data.getData();
       // 0 -> color data, 1 -> repo data
-      const colorData = values[0];
-      const repoData = values[1];
+      const colorData: IColorData = values[0];
+      const repoData: IRepoData = values[1];
+      // If the repoData is empty, don't go any further
+      if(this.data.emptyAccount) return;
       // Cache the repoData we just got, if we need to
       if (!this.data.repoDataFromCache) {
         this.cacheData(repoData);
       }
-        // Build the graph
+      // Build the graph
       this.build(colorData, repoData);
     } catch (e) {
       // This is where we need to add the error display
@@ -61,10 +63,10 @@ class LanguageDisplay {
     }
   }
 
-  private cacheData(data : object) {
+  private cacheData(data : IRepoData) {
     // Store the repo data in the cache for the username
-    const cachedAt = new Date().valueOf();
-    const value = {
+    const cachedAt: number = new Date().valueOf();
+    const value: ICachedData = {
       cachedAt,
       data,
     };
@@ -111,7 +113,7 @@ class LanguageDisplay {
     return canvas;
   }
 
-  private build(colorData : object, repoData : object) {
+  private build(colorData : IColorData, repoData : IRepoData) {
     this.container = this.createContainer();
     this.parent.appendChild(this.container);
     // Get the width and height of the container and use it to build the canvas
@@ -130,7 +132,7 @@ class LanguageDisplay {
     });
   }
 
-  private draw(colorData: object, repoData: object, showLegend: boolean) {
+  private draw(colorData: IColorData, repoData: IRepoData, showLegend: boolean) {
     // Create the pie chart and populate it with the repo data
     const counts = [];
     const colors = [];

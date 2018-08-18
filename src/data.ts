@@ -3,9 +3,17 @@
 
 const CACHE_THRESHOLD = 36e5; // 1 hour
 
-interface ICachedData {
+export interface IRepoData {
+  [language: string]: number;
+}
+
+export interface IColorData {
+  [language: string]: string;
+}
+
+export interface ICachedData {
   cachedAt : number;
-  data : object;
+  data : IRepoData;
 }
 
 interface IAPIRepoData {
@@ -14,6 +22,7 @@ interface IAPIRepoData {
 
 export class Data {
   public repoDataFromCache : boolean = false;
+  public emptyAccount : boolean = true;
   private isOrg : boolean;
   private personalToken : string;
   private username : string;
@@ -24,13 +33,13 @@ export class Data {
     this.personalToken = token;
   }
 
-  public getData() : Promise<object[]> {
+  public getData() : Promise<[IColorData, IRepoData]> {
     // Gets both the color data and repo data and returns a Promise that will resolve to get both of them
     // Calling .then on this should get back an array of two values; color and repo data respectively
     return Promise.all([this.getColorData(), this.getRepoData()]);
   }
 
-  private async getColorData() : Promise<JSON> {
+  private async getColorData() : Promise<IColorData> {
     const url = chrome.runtime.getURL('colors.json');
     return (await fetch(url)).json();
   }
@@ -46,7 +55,7 @@ export class Data {
           return reject();
         }
         // We have a cached object, so check time of cache
-        const cachedData = result[this.username];
+        const cachedData: ICachedData = result[this.username];
         if (new Date().valueOf() - cachedData.cachedAt < CACHE_THRESHOLD) {
           // We can use the cached version
           return resolve(cachedData);
@@ -58,7 +67,7 @@ export class Data {
   }
 
   // Fetches the repo data either from cache or from the API and returns a Promise for the data
-  private async getRepoData() : Promise<object> {
+  private async getRepoData() : Promise<IRepoData> {
     try {
       // Check if the user's data is in the cache
       const cachedData = await this.checkCache();
@@ -70,12 +79,13 @@ export class Data {
     }
   }
 
-  private updateRepoData(repoData : object, json : IAPIRepoData[]) : object {
+  private updateRepoData(repoData : IRepoData, json : IAPIRepoData[]) : IRepoData {
     for (const repo of json) {
       if (repo.language === null) { continue; }
       let count = repoData[repo.language] || 0;
       count++;
       repoData[repo.language] = count;
+      this.emptyAccount = false;
     }
     return repoData;
   }
@@ -96,11 +106,11 @@ export class Data {
   }
 
   // Fetch repository data from the API
-  private async fetchRepoData() : Promise<object> {
+  private async fetchRepoData() : Promise<IRepoData> {
     const apiSection = this.isOrg ? 'orgs' : 'users';
     let url = `https://api.github.com/${apiSection}/${this.username}/repos?page=1&per_page=50`;
     let linkHeader : string;
-    let repoData: object = {};
+    let repoData: IRepoData = {};
     const headers: HeadersInit = {};
     if (this.personalToken !== '') { headers.Authorization = `token ${this.personalToken}`; }
     const headerRegex = /\<(.*)\>; rel="next"/;
