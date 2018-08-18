@@ -188,11 +188,14 @@ class LanguageDisplay {
 }
 
 // The profile name will get retrieved from location.pathname
-const path = window.location.pathname.substr(1);
-// It's the profile page if path.split(/).length is 1 or its 2 but the last item is the empty string
-// This is a workaround until I can fix the issue with matching trailing slashes in the manifest file
+let path = window.location.pathname.substr(1);
+// Trim the trailing slash if there is one
+if (path[path.length - 1] === "/") {
+  path = path.slice(0, -1);
+}
+// The page is correct if the length of path.split is 1 and the first item isn't the empty string
 const splitPath = path.split('/');
-if (path !== "" && splitPath.length === 1 || (splitPath.length === 2 && splitPath[1] === '')) {
+if (splitPath.length === 1 && splitPath[0].length !== 0) {
   const profileName = splitPath[0];
   const graph = new LanguageDisplay(profileName);
 }
