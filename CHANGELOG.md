@@ -1,4 +1,4 @@
-# 0.1.8 (latest)
+# 0.1.8
 - Removed the opening of this page when an update is installed
 - Fixed issue where requests were being made on pages they shouldn't have been
 - Prevented extension from adding anything to a page if the repo data for the account is empty
