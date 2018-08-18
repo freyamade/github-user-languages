@@ -21,7 +21,6 @@ class LanguageDisplay {
       // Org page, set the flag as such
       this.isOrg = true;
       this.parent = document.querySelector('div.col-4.float-right.pl-4');
-      console.log(this.parent);
     }
     this.canvas = null;
     this.container = null;
