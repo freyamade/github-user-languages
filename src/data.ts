@@ -58,6 +58,8 @@ export class Data {
         const cachedData: ICachedData = result[this.username];
         if (new Date().valueOf() - cachedData.cachedAt < CACHE_THRESHOLD) {
           // We can use the cached version
+          // Set emptyAccount flag to false here too
+          this.emptyAccount = false;
           return resolve(cachedData);
         }
 
