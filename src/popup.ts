@@ -10,6 +10,32 @@ interface ISyncData {
   personalAccessToken: ITokenData;
 }
 
+// Helper methods
+async function getUsernameForToken(token: string) : Promise<string | null> {
+  // If there's no token, the username has to be null
+  if (token === "") {
+    return null;
+  }
+  const headers: HeadersInit = {Authorization: `token ${token}`};
+  const url = "https://api.github.com/user";
+  let username: string | null = null;
+  try {
+    const response = await fetch(url, {headers});
+    if (response.ok) {
+      const data = await response.json();
+      username = data.login;
+      console.log(username);
+    }
+    // If not okay, we'll leave the username as null
+  }
+  catch (e) {
+    // If there's an error then the token is likely invalid
+  }
+  const storedData = {username, token};
+  console.log(storedData);
+  chrome.storage.sync.set({personalAccessToken: storedData});
+}
+
 // Get the old data of both of these values
 chrome.storage.sync.get(['showLegend', 'personalAccessToken'], (result: ISyncData) => {
   setup(result);
@@ -35,24 +61,7 @@ async function setup(result: ISyncData) {
   personalTokenInput.addEventListener('change', async () => {
     // Get the username for the Token as well, this will allow private repos to be included on the user's own page
     const token = personalTokenInput.value;
-    if (token === "") {
-      return;
-    }
-    const headers: HeadersInit = {Authorization: `token ${token}`};
-    const url = "https://api.github.com/user";
-    let username: string | null = null;
-    try {
-      const response = await fetch(url, {headers});
-      if (response.ok) {
-        const data = await response.json();
-        username = data.login;
-        console.log(username);
-      }
-      // If not okay, we'll leave the username as null
-    }
-    catch (e) {
-      // If there's an error then the token is likely invalid
-    }
+    const username = await getUsernameForToken(token);
     const storedData = {username, token};
     console.log(storedData);
     chrome.storage.sync.set({personalAccessToken: storedData});
