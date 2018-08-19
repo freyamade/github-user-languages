@@ -9,11 +9,11 @@ interface ISyncData {
 // Helper methods
 async function getUsernameForToken(token: string) : Promise<string | null> {
   // If there's no token, the username has to be null
-  if (token === "") {
+  if (token === '') {
     return null;
   }
   const headers: HeadersInit = {Authorization: `token ${token}`};
-  const url = "https://api.github.com/user";
+  const url = 'https://api.github.com/user';
   let username: string | null = null;
   try {
     const response = await fetch(url, {headers});
@@ -39,9 +39,9 @@ async function setup(result: ISyncData) {
   const chartLegendCheck: HTMLInputElement = document.getElementById('show-legend') as HTMLInputElement;
   const personalTokenInput: HTMLInputElement = document.getElementById('personal-access-token') as HTMLInputElement;
 
-  let showLegend = result.showLegend || false;
-  let personalAccessToken: string = result.personalAccessToken || '';
-  let personalAccessTokenOwner: string = result.personalAccessTokenOwner || '';
+  const showLegend = result.showLegend || false;
+  const personalAccessToken: string = result.personalAccessToken || '';
+  const personalAccessTokenOwner: string = result.personalAccessTokenOwner || '';
 
   // Set up the initial values of the inputs based on the storage read values
   chartLegendCheck.checked = showLegend;
@@ -59,7 +59,7 @@ async function setup(result: ISyncData) {
     const username = await getUsernameForToken(token);
     const storedData = {
       personalAccessToken: token,
-      personalAccessTokenOwner: username
+      personalAccessTokenOwner: username,
     };
     console.log('setting data', storedData);
     chrome.storage.sync.set(storedData);

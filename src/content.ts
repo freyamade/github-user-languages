@@ -27,11 +27,11 @@ class LanguageDisplay {
     // Get the personal access token from sync storage and fetch data
     chrome.storage.sync.get(['personalAccessToken', 'personalAccessTokenOwner'], (result) => {
       const token: string = result.personalAccessToken || '';
-      const username: string | null = result.personalAccessTokenOwner || null;
+      const tokenOwner: string | null = result.personalAccessTokenOwner || null;
       const tokenData: ITokenData = {
-        username: username,
-        token: token
-      }
+        token,
+        username: tokenOwner,
+      };
       this.data = new Data(username, this.isOrg, tokenData);
       this.getData();
     });

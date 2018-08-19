@@ -10,8 +10,8 @@ chrome.runtime.onInstalled.addListener(() => {
   console.log('Testing that sync storage is up to date (0.1.9)');
   chrome.storage.sync.get(['personalAccessToken', 'personalAccessTokenOwner'], async (result) => {
     // Ensure that the owner is set if the token is set, or set it otherwise
-    let personalAccessToken: string = result.personalAccessToken || '';
-    let personalAccessTokenOwner: string = result.personalAccessTokenOwner || '';
+    const personalAccessToken: string = result.personalAccessToken || '';
+    const personalAccessTokenOwner: string = result.personalAccessTokenOwner || '';
 
     if (personalAccessTokenOwner === '' && personalAccessToken !== '') {
       console.log('Data found to not match the structure for 0.1.9. Fixing.');
@@ -32,5 +32,5 @@ chrome.runtime.onInstalled.addListener(() => {
       // Store that back in the sync storage
       chrome.storage.sync.set({personalAccessTokenOwner: username});
     }
-  })
-})
+  });
+});
