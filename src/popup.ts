@@ -43,13 +43,6 @@ async function setup(result: ISyncData) {
   let personalAccessToken: string = result.personalAccessToken || '';
   let personalAccessTokenOwner: string = result.personalAccessTokenOwner || '';
 
-  // Upgrade from 0.1.8 to 0.1.9 handling; if the token has a value but the owner doesn't, update the owner
-  if (personalAccessTokenOwner === '' && personalAccessToken !== '') {
-    personalAccessTokenOwner = await getUsernameForToken(personalAccessToken);
-    // Store that back in the sync storage
-    chrome.storage.sync.set({personalAccessTokenOwner: personalAccessTokenOwner});
-  }
-
   // Set up the initial values of the inputs based on the storage read values
   chartLegendCheck.checked = showLegend;
   personalTokenInput.value = personalAccessToken;
