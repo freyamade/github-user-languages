@@ -29,10 +29,10 @@ export class Data {
   public repoDataFromCache : boolean = false;
   public emptyAccount : boolean = true;
   private isOrg : boolean;
-  private personalToken : ITokenData | null;
+  private personalToken : ITokenData;
   private username : string;
 
-  constructor(username : string, isOrg : boolean, token : ITokenData | null) {
+  constructor(username : string, isOrg : boolean, token : ITokenData) {
     this.username = username;
     this.isOrg = isOrg;
     this.personalToken = token;
@@ -121,7 +121,7 @@ export class Data {
     if (this.isOrg) {
       url = `${urlBase}/orgs/${this.username}/repos?${query}`;
     }
-    else if (this.personalToken !== null && this.username === this.personalToken.username) {
+    else if (this.username === this.personalToken.username) {
       // Send the request to list the user's own repos
       url = `${urlBase}/user/repos?${query}`;
     }
