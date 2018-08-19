@@ -26,7 +26,7 @@
     "tabs"
   ],
   "short_name": "github-user-languages",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "web_accessible_resources": [
     "colors.json"
   ]
