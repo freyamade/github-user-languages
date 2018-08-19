@@ -83,7 +83,7 @@ export class Data {
 
   private updateRepoData(repoData : IRepoData, json : IAPIRepoData[]) : IRepoData {
     for (const repo of json) {
-      if (repo.language === null) { continue; }
+      if (repo.language == null) { continue; }
       let count = repoData[repo.language] || 0;
       count++;
       repoData[repo.language] = count;
@@ -94,7 +94,7 @@ export class Data {
 
   // Helper method to get the next url to go to
   private getNextUrlFromHeader(header : string) {
-    if (header === null) { return null; }
+    if (header == null) { return null; }
     const regex = /\<(.*)\>/;
     // The header can contain many URLs, separated by commas, each with a rel
     // We want only the one that contains rel="next"
