@@ -1,13 +1,9 @@
 // Add listeners to the elements in popup.html to update the sync storage when changes are made
 
-interface ITokenData {
-  username: string | null;
-  token: string;
-}
-
 interface ISyncData {
   showLegend: boolean;
-  personalAccessToken: ITokenData;
+  personalAccessToken: string;
+  personalAccessTokenOwner: string;
 }
 
 // Helper methods
@@ -31,13 +27,11 @@ async function getUsernameForToken(token: string) : Promise<string | null> {
   catch (e) {
     // If there's an error then the token is likely invalid
   }
-  const storedData = {username, token};
-  console.log(storedData);
-  chrome.storage.sync.set({personalAccessToken: storedData});
+  return username;
 }
 
 // Get the old data of both of these values
-chrome.storage.sync.get(['showLegend', 'personalAccessToken'], (result: ISyncData) => {
+chrome.storage.sync.get(['showLegend', 'personalAccessToken', 'personalAccessTokenOwner'], (result: ISyncData) => {
   setup(result);
 });
 
@@ -46,11 +40,19 @@ async function setup(result: ISyncData) {
   const personalTokenInput: HTMLInputElement = document.getElementById('personal-access-token') as HTMLInputElement;
 
   let showLegend = result.showLegend || false;
-  let personalAccessToken = result.personalAccessToken || {token: "", username: null};
+  let personalAccessToken: string = result.personalAccessToken || '';
+  let personalAccessTokenOwner: string = result.personalAccessTokenOwner || '';
+
+  // Upgrade from 0.1.8 to 0.1.9 handling; if the token has a value but the owner doesn't, update the owner
+  if (personalAccessTokenOwner === '' && personalAccessToken !== '') {
+    personalAccessTokenOwner = await getUsernameForToken(personalAccessToken);
+    // Store that back in the sync storage
+    chrome.storage.sync.set({personalAccessTokenOwner: personalAccessTokenOwner});
+  }
 
   // Set up the initial values of the inputs based on the storage read values
   chartLegendCheck.checked = showLegend;
-  personalTokenInput.value = personalAccessToken.token;
+  personalTokenInput.value = personalAccessToken;
 
   // Add event listeners to get the values when they change
   chartLegendCheck.addEventListener('click', () => {
@@ -62,9 +64,12 @@ async function setup(result: ISyncData) {
     // Get the username for the Token as well, this will allow private repos to be included on the user's own page
     const token = personalTokenInput.value;
     const username = await getUsernameForToken(token);
-    const storedData = {username, token};
-    console.log(storedData);
-    chrome.storage.sync.set({personalAccessToken: storedData});
+    const storedData = {
+      personalAccessToken: token,
+      personalAccessTokenOwner: username
+    };
+    console.log('setting data', storedData);
+    chrome.storage.sync.set(storedData);
   }, false);
 
   // Now enable the inputs for user input
