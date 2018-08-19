@@ -1,6 +1,6 @@
 // This script is excuted directly from inside the page
 import { Chart } from 'chart.js';
-import { Data, ICachedData, IColorData, IRepoData } from './data';
+import { Data, ICachedData, IColorData, IRepoData, ITokenData } from './data';
 
 class LanguageDisplay {
   private canvas : HTMLCanvasElement;
@@ -25,10 +25,14 @@ class LanguageDisplay {
     this.canvas = null;
     this.container = null;
     // Get the personal access token from sync storage and fetch data
-    chrome.storage.sync.get(['personalAccessToken'], (result) => {
-      const token = result.personalAccessToken || {token: "", username: null};
-      console.log(token);
-      this.data = new Data(username, this.isOrg, token);
+    chrome.storage.sync.get(['personalAccessToken', 'personalAccessTokenOwner'], (result) => {
+      const token: string = result.personalAccessToken || '';
+      const username: string | null = result.personalAccessTokenOwner || null;
+      const tokenData: ITokenData = {
+        username: username,
+        token: token
+      }
+      this.data = new Data(username, this.isOrg, tokenData);
       this.getData();
     });
   }
