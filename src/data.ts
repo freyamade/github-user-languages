@@ -123,7 +123,7 @@ export class Data {
     }
     else if (this.username === this.personalToken.username) {
       // Send the request to list the user's own repos
-      url = `${urlBase}/user/repos?${query}`;
+      url = `${urlBase}/user/repos?${query}&affiliation=owner`;
     }
     else {
       // Send the request to the normal users endpoint
