@@ -16,6 +16,11 @@ export interface ICachedData {
   data : IRepoData;
 }
 
+export interface ITokenData {
+  username: string | null;
+  token: string;
+}
+
 interface IAPIRepoData {
   language: string;
 }
@@ -24,10 +29,10 @@ export class Data {
   public repoDataFromCache : boolean = false;
   public emptyAccount : boolean = true;
   private isOrg : boolean;
-  private personalToken : string;
+  private personalToken : ITokenData;
   private username : string;
 
-  constructor(username : string, isOrg : boolean, token : string) {
+  constructor(username : string, isOrg : boolean, token : ITokenData) {
     this.username = username;
     this.isOrg = isOrg;
     this.personalToken = token;
@@ -47,7 +52,7 @@ export class Data {
   private checkCache() : Promise<ICachedData> {
     // Create a promise to retrieve the key from cache, or reject if it's not there
     return new Promise((resolve, reject) => {
-      // return reject(); // Uncomment this to turn off cache reads when in development
+      return reject(); // Uncomment this to turn off cache reads when in development
       chrome.storage.local.get([this.username], (result) => {
         // If the data isn't there, result will be an empty object
         if (Object.keys(result).length < 1) {
@@ -107,14 +112,35 @@ export class Data {
     return null;
   }
 
+  private generateAPIURL() : string {
+    // Generate the correct API URL request given the circumstances of the request
+    // Circumstances: Org or User page, and if User page, is it the User using the extension
+    const urlBase = 'https://api.github.com';
+    const query = 'page=1&per_page=50';
+    let url : string;
+    if (this.isOrg) {
+      url = `${urlBase}/orgs/${this.username}/repos?${query}`;
+    }
+    else if (this.username === this.personalToken.username) {
+      // Send the request to list the user's own repos
+      url = `${urlBase}/user/repos?${query}&affiliation=owner`;
+    }
+    else {
+      // Send the request to the normal users endpoint
+      url = `${urlBase}/users/${this.username}/repos?${query}`;
+    }
+    return url;
+  }
+
   // Fetch repository data from the API
   private async fetchRepoData() : Promise<IRepoData> {
-    const apiSection = this.isOrg ? 'orgs' : 'users';
-    let url = `https://api.github.com/${apiSection}/${this.username}/repos?page=1&per_page=50`;
+    let url = this.generateAPIURL();
     let linkHeader : string;
     let repoData: IRepoData = {};
     const headers: HeadersInit = {};
-    if (this.personalToken !== '') { headers.Authorization = `token ${this.personalToken}`; }
+    if (this.personalToken !== null && this.personalToken.username !== null) {
+      headers.Authorization = `token ${this.personalToken.token}`;
+    }
     const headerRegex = /\<(.*)\>; rel="next"/;
     // Use Promise.resolve to wait for the result
     let response = await fetch(url, {headers});

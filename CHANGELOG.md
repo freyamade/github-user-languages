@@ -1,3 +1,8 @@
+# 0.1.9
+- Fixed issue where private repos were not showing up in the chart when a Personal Access Token was added via the popup
+- Private repos were only returned via the `/user/repos` endpoint instead of `/users/:username/repos` endpoint
+- To this end, the way tokens are stored in sync storage had to be changed a bit. This should hopefully not require anything else from the user however.
+
 # 0.1.8
 - Removed the opening of this page when an update is installed
 - Fixed issue where requests were being made on pages they shouldn't have been
