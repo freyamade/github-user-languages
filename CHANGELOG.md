@@ -1,7 +1,8 @@
 # 1.0.0
-- Bumping release version to v1.0
+- Bumping release version to v1.0.0
     - It's been long enough since the previous version came out without issue that I felt it was time to bump to major version 1 and start pushing the plugin a bit more to get some feedback.
 - Will hopefully commence work on a Firefox equivalent in the near future
+- Fixed an issue where I forgot to uncomment a line that is meant to be commented out when not testing :/
 
 # 0.1.9
 - Fixed issue where private repos were not showing up in the chart when a Personal Access Token was added via the popup
