@@ -149,7 +149,7 @@ class LanguageDisplay {
         // Prop is one of the languages
         langs.push(prop);
         counts.push(repoData[prop]);
-        colors.push(colorData[prop]);
+        colors.push(colorData[prop] || '#ededed');
       }
     }
     const chart = new Chart(this.canvas, {
