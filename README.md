@@ -20,20 +20,20 @@ Firefox version is planned but currently not even started, although I doubt ther
 ## Usage
 Just by having the extension installed, it's already working!
 
-Simply visit a User's profile page (why not [mine](https://github.com/crnbrdrck)?) and you'll see something to similar to the following image on the left sidebar: ![github-user-languages demo](./img/demo.png)
+Simply visit a any profile page (both User and Org pages are supported) and you'll see something to similar to the following image on the left sidebar: ![github-user-languages demo](./img/demo.png)
 
 All the colours are pulled from GitHub's official language colours, and hovering over any section will tell you the language and how many repos the user has made in that language. Simple! :smile:
 
-Also, by clicking on one of the segments, you can be redirected to a list of repos by that user in that language!
+By clicking on one of the segments, you can be redirected to a list of repos by that user in that language!
 
-The same now works for [Orgs](https://github.com/github)
+### Settings
+By clicking on the icon in the browser bar, you'll be given a popup with two things;
+- A checkbox to control whether or not the chart displays a legend
+- A text input to add a personal access token to the GitHub API
 
-## Chrome v1 Major Release
-As far as I can tell, I think the extension is ready for a full release now.
+The checkbox will toggle whether or not there is a legend displayed alongside the pie chart, which allows you to see what all colours represent without having to hover over them.
 
-I'm going to give it until the end of August for any bugs to come in (I might post it on Reddit or something) and then I'll mark the release as v1.0.0
-
-After that, I might write a Firefox version too, who knows?
+The text input allows you to add a GitHub API personal token, which allows for an increase to your rate limit (meaning you can get more information from the API), as well as being able to include your private repos in the chart on your own page.
 
 ## Want to Contribute?
 Contributing doesn't just mean writing code!
@@ -55,7 +55,7 @@ I'm also not that great at writing READMEs so help with this one would be very w
 #### Notes
 - Whenever you make changes to the extension, the JS will compile automatically but you'll need to click the little circle arrow on `chrome://extensions` to reload the extension
 - It's probably a good idea to turn off the release version while you're doing development so they don't mess with eachother
-- If you want to turn off caching while in development, simply uncomment the `return reject();` at line 50 of `data.ts`
+- If you want to turn off caching while in development, simply uncomment the `return reject();` at line 55 of `data.ts`
 
 ## Boilerplate
 Boilerplate used to set up this project can be found at https://github.com/chibat/chrome-extension-typescript-starter
