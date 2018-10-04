@@ -21,12 +21,7 @@ jobs:
 
     # Deploy the thing to Chrome Web Store automatically
     - stage: deploy
-      script: apt-get update && apt-get install -y curl jq
-    - script: echo "Deploying github-user-languages $(jq '.version' package.json) to the Web Store!"
-    - script: npm run build
-    - script: zip -r dist.zip dist
-    # Get the token to upload with and upload it
-    - script: bash deploy.sh
+      script: bash deploy.sh
 
 # Turn off email notifs
 notifications:
