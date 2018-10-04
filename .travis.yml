@@ -4,10 +4,29 @@ node_js:
 cache:
   directories:
     - "node_modules"
-script:
-  - npm install
-  - tslint 'src/**/*.ts'
-  - npm run build
+
+stages:
+  - lint
+  - test
+  - name: deploy
+    if: tag IS present
+jobs:
+  include:
+    - stage: lint
+      script: tslint 'src/**/*.ts'
+
+    # For test for now just make sure we can build it I guess
+    - stage: test
+      script: npm run build
+
+    # Deploy the thing to Chrome Web Store automatically
+    - stage: deploy
+      script: apt-get update && apt-get install -y curl jq
+    - script: echo "Deploying github-user-languages $(jq '.version' package.json) to the Web Store!"
+    - script: npm run build
+    - script: zip -r dist.zip dist
+    # Get the token to upload with and upload it
+    - script: bash deploy.sh
 
 # Turn off email notifs
 notifications:
