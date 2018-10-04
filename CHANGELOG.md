@@ -1,3 +1,6 @@
+# 1.0.2
+- Automated deployment of extension using the existing CI system
+
 # 1.0.1
 - Fixed issue regarding colours for C# and C++ not appearing correctly
 
