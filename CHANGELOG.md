@@ -1,3 +1,7 @@
+# 1.0.3
+- Added extra config to the manifest file to make the extension work in Firefox.
+- Set up CI to also deploy a Firefox version.
+
 # 1.0.2
 - Automated deployment of extension using the existing CI system
 
