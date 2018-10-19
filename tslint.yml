@@ -9,9 +9,9 @@ rules:
   linebreak-style:
     - error
     - unix
-  semi:
+  semicolon:
     - error
-    - always
+    - never
   quotemark:
     - error
     - single
