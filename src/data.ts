@@ -4,11 +4,11 @@
 const CACHE_THRESHOLD = 36e5 // 1 hour
 
 export interface IRepoData {
-  [language: string]: number
+  [language: string] : number
 }
 
 export interface IColorData {
-  [language: string]: string
+  [language: string] : string
 }
 
 export interface ICachedData {
@@ -17,12 +17,12 @@ export interface ICachedData {
 }
 
 export interface ITokenData {
-  username: string | null
-  token: string
+  username : string | null
+  token : string
 }
 
 interface IAPIRepoData {
-  language: string
+  language : string
 }
 
 export class Data {
@@ -32,7 +32,7 @@ export class Data {
   private personalToken : ITokenData
   private username : string
 
-  constructor(username : string, isOrg : boolean, token : ITokenData) {
+  constructor(username: string, isOrg: boolean, token: ITokenData) {
     this.username = username
     this.isOrg = isOrg
     this.personalToken = token
@@ -60,7 +60,7 @@ export class Data {
           return reject()
         }
         // We have a cached object, so check time of cache
-        const cachedData: ICachedData = result[this.username]
+        const cachedData : ICachedData = result[this.username]
         if (new Date().valueOf() - cachedData.cachedAt < CACHE_THRESHOLD) {
           // We can use the cached version
           // Set emptyAccount flag to false here too
@@ -86,7 +86,7 @@ export class Data {
     }
   }
 
-  private updateRepoData(repoData : IRepoData, json : IAPIRepoData[]) : IRepoData {
+  private updateRepoData(repoData: IRepoData, json: IAPIRepoData[]) : IRepoData {
     for (const repo of json) {
       if (repo.language === null) { continue }
       let count = repoData[repo.language] || 0
@@ -98,7 +98,7 @@ export class Data {
   }
 
   // Helper method to get the next url to go to
-  private getNextUrlFromHeader(header : string) {
+  private getNextUrlFromHeader(header: string) {
     if (header === null) { return null }
     const regex = /\<(.*)\>/
     // The header can contain many URLs, separated by commas, each with a rel
@@ -136,12 +136,12 @@ export class Data {
   private async fetchRepoData() : Promise<IRepoData> {
     let url = this.generateAPIURL()
     let linkHeader : string
-    let repoData: IRepoData = {}
-    const headers: HeadersInit = {}
+    let repoData : IRepoData = {}
+    const headers : HeadersInit = {}
     if (this.personalToken !== null && this.personalToken.username !== null) {
       headers.Authorization = `token ${this.personalToken.token}`
     }
-    const headerRegex = /\<(.*)\> rel="next"/;
+    const headerRegex = /\<(.*)\> rel="next"/
     // Use Promise.resolve to wait for the result
     let response = await fetch(url, {headers})
     linkHeader = response.headers.get('link')

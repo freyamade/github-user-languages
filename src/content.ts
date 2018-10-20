@@ -8,11 +8,11 @@ class LanguageDisplay {
   private data : Data
   private isOrg : boolean = false
   // Special extra div that the canvas needs to be drawn into on org pages
-  private orgDiv: HTMLDivElement
+  private orgDiv : HTMLDivElement
   private parent : HTMLDivElement
   private username : string
 
-  constructor(username : string) {
+  constructor(username: string) {
     this.username = username
     // Fetch the lang data now
     this.parent = document.querySelector('div[itemtype="http://schema.org/Person"]')
@@ -26,9 +26,9 @@ class LanguageDisplay {
     this.container = null
     // Get the personal access token from sync storage and fetch data
     chrome.storage.sync.get(['personalAccessToken', 'personalAccessTokenOwner'], (result) => {
-      const token: string = result.personalAccessToken || ''
-      const tokenOwner: string | null = result.personalAccessTokenOwner || null
-      const tokenData: ITokenData = {
+      const token : string = result.personalAccessToken || ''
+      const tokenOwner : string | null = result.personalAccessTokenOwner || null
+      const tokenData : ITokenData = {
         token,
         username: tokenOwner,
       }
@@ -43,8 +43,8 @@ class LanguageDisplay {
     try {
       const values = await this.data.getData()
       // 0 -> color data, 1 -> repo data
-      const colorData: IColorData = values[0]
-      const repoData: IRepoData = values[1]
+      const colorData : IColorData = values[0]
+      const repoData : IRepoData = values[1]
       // If the repoData is empty, don't go any further
       if (this.data.emptyAccount) {
         return
@@ -70,10 +70,10 @@ class LanguageDisplay {
     }
   }
 
-  private cacheData(data : IRepoData) {
+  private cacheData(data: IRepoData) {
     // Store the repo data in the cache for the username
-    const cachedAt: number = new Date().valueOf()
-    const value: ICachedData = {
+    const cachedAt : number = new Date().valueOf()
+    const value : ICachedData = {
       cachedAt,
       data,
     }
@@ -106,7 +106,7 @@ class LanguageDisplay {
     return div
   }
 
-  private createCanvas(width : number) {
+  private createCanvas(width: number) {
     // Round width down to the nearest 50
     width = Math.floor(width / 50) * 50
     // Create the canvas to put the chart in
@@ -120,7 +120,7 @@ class LanguageDisplay {
     return canvas
   }
 
-  private build(colorData : IColorData, repoData : IRepoData) {
+  private build(colorData: IColorData, repoData: IRepoData) {
     this.container = this.createContainer()
     this.parent.appendChild(this.container)
     // Get the width and height of the container and use it to build the canvas
@@ -197,7 +197,7 @@ class LanguageDisplay {
 let profileName : string | null = null
 let path = window.location.pathname.substr(1)
 // Trim the trailing slash if there is one
-if (path[path.length - 1] === "/") {
+if (path[path.length - 1] === '/') {
   path = path.slice(0, -1)
 }
 // The page is correct if the length of path.split is 1 and the first item isn't the empty string

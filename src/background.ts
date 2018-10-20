@@ -10,14 +10,14 @@ chrome.runtime.onInstalled.addListener(() => {
   console.log('Testing that sync storage is up to date (0.1.9)')
   chrome.storage.sync.get(['personalAccessToken', 'personalAccessTokenOwner'], async (result) => {
     // Ensure that the owner is set if the token is set, or set it otherwise
-    const personalAccessToken: string = result.personalAccessToken || ''
-    const personalAccessTokenOwner: string = result.personalAccessTokenOwner || ''
+    const personalAccessToken : string = result.personalAccessToken || ''
+    const personalAccessTokenOwner : string = result.personalAccessTokenOwner || ''
 
     if (personalAccessTokenOwner === '' && personalAccessToken !== '') {
       console.log('Data found to not match the structure for 0.1.9. Fixing.')
-      const headers: HeadersInit = {Authorization: `token ${personalAccessToken}`}
-      const url = "https://api.github.com/user"
-      let username: string | null = null
+      const headers : HeadersInit = {Authorization: `token ${personalAccessToken}`}
+      const url = 'https://api.github.com/user'
+      let username : string | null = null
       try {
         const response = await fetch(url, {headers})
         if (response.ok) {

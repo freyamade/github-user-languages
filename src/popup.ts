@@ -1,9 +1,9 @@
 // Add listeners to the elements in popup.html to update the sync storage when changes are made
 
 interface ISyncData {
-  showLegend: boolean
-  personalAccessToken: string
-  personalAccessTokenOwner: string
+  showLegend : boolean
+  personalAccessToken : string
+  personalAccessTokenOwner : string
 }
 
 // Helper methods
@@ -12,9 +12,9 @@ async function getUsernameForToken(token: string) : Promise<string | null> {
   if (token === '') {
     return null
   }
-  const headers: HeadersInit = {Authorization: `token ${token}`}
+  const headers : HeadersInit = {Authorization: `token ${token}`}
   const url = 'https://api.github.com/user'
-  let username: string | null = null
+  let username : string | null = null
   try {
     const response = await fetch(url, {headers})
     if (response.ok) {
@@ -36,12 +36,12 @@ chrome.storage.sync.get(['showLegend', 'personalAccessToken', 'personalAccessTok
 })
 
 async function setup(result: ISyncData) {
-  const chartLegendCheck: HTMLInputElement = document.getElementById('show-legend') as HTMLInputElement
-  const personalTokenInput: HTMLInputElement = document.getElementById('personal-access-token') as HTMLInputElement
+  const chartLegendCheck : HTMLInputElement = document.getElementById('show-legend') as HTMLInputElement
+  const personalTokenInput : HTMLInputElement = document.getElementById('personal-access-token') as HTMLInputElement
 
   const showLegend = result.showLegend || false
-  const personalAccessToken: string = result.personalAccessToken || ''
-  const personalAccessTokenOwner: string = result.personalAccessTokenOwner || ''
+  const personalAccessToken : string = result.personalAccessToken || ''
+  const personalAccessTokenOwner : string = result.personalAccessTokenOwner || ''
 
   // Set up the initial values of the inputs based on the storage read values
   chartLegendCheck.checked = showLegend
