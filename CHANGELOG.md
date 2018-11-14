@@ -1,3 +1,6 @@
+# 1.0.3
+- Updated colours json file for new Crystal colour
+
 # 1.0.2
 - Automated deployment of extension using the existing CI system
 
