@@ -71,7 +71,7 @@ async function setup(result: ISyncData) {
 }
 
 // Set up a listener for a click on the link to open a tab to generate a token
-const tokenUrl = 'https://github.com/settings/tokens/new?description=GitHub%20User%20Languages'
+const tokenUrl = 'https://github.com/settings/tokens/new?description=GitHub%20User%20Languages&scopes=repo'
 document.getElementById('get-token').addEventListener('click', () => {
   chrome.tabs.create({ url: tokenUrl })
 }, false)
