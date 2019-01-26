@@ -1,3 +1,6 @@
+# 1.0.4
+- Added default scope to token URL (thanks [@Strum355](https://github.com/strum355)
+
 # 1.0.3
 - Updated colours json file for new Crystal colour
 
