@@ -152,6 +152,8 @@ class LanguageDisplay {
         colors.push(colorData[prop] || '#ededed')
       }
     }
+    // Update the canvas height based on the number of languages
+    this.canvas.height += (20 * Math.ceil(langs.length / 2))
     const chart = new Chart(this.canvas, {
       data: {
         datasets: [{
