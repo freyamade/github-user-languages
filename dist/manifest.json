@@ -32,7 +32,7 @@
     "tabs"
   ],
   "short_name": "github-user-languages",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "web_accessible_resources": [
     "colors.json"
   ]
