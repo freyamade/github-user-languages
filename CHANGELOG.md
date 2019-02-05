@@ -1,6 +1,11 @@
+# 1.0.5
+- Fixed an issue where the chart was being displayed too small when there was a large number of languages and the legend was displayed
+
+# 1.0.4
+- Added default scope to token URL (thanks [@Strum355](https://github.com/strum355)
+
 # 1.0.3
-- Added extra config to the manifest file to make the extension work in Firefox.
-- Set up CI to also deploy a Firefox version.
+- Updated colours json file for new Crystal colour
 
 # 1.0.2
 - Automated deployment of extension using the existing CI system
