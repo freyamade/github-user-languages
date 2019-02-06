@@ -15,7 +15,9 @@ So I decided to make just that!
 Click the badge to be taken to the web store page for this plugin!
 
 ### Firefox
-Firefox version is planned but currently not even started, although I doubt there'll be much to change.
+[![Firefox Add-ons](https://img.shields.io/amo/v/github-user-languages.svg?style=flat-square)](https://addons.mozilla.org/en-US/firefox/addon/github-user-languages/?src=search)
+
+Click the badge to be taken to the web store page for this plugin!
 
 ## Usage
 Just by having the extension installed, it's already working!
