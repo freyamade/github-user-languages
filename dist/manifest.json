@@ -1,7 +1,7 @@
 {
   "applications": {
     "gecko": {
-      "id": "github-user-languages@crnbrdrck.xyz"
+      "id": "extension@github-user-languages.github.com"
     }
   },
   "author": "crnbrdrck (Ciaran Broderick)",
