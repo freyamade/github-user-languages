@@ -5,7 +5,9 @@ echo "Deploying github-user-languages $(jq '.version' package.json) to the Web S
 npm run build
 
 # Create the distribution zipfile
-zip -r dist.zip dist
+cd dist
+zip -r ../dist.zip *
+cd ..
 
 # Deploy to Chrome Web Store
 ACCESS_TOKEN=$(curl "https://accounts.google.com/o/oauth2/token" -d "client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&refresh_token=${REFRESH_TOKEN}&grant_type=refresh_token&redirect_uri=urn:ietf:wg:oauth:2.0:oob" | jq -r .access_token)

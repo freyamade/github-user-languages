@@ -1,4 +1,9 @@
 {
+  "applications": {
+    "gecko": {
+      "id": "extension@github-user-languages.github.com"
+    }
+  },
   "author": "crnbrdrck (Ciaran Broderick)",
   "background": {
     "persistent": false,
@@ -28,6 +33,7 @@
   "manifest_version": 2,
   "name": "GitHub User Languages",
   "permissions": [
+    "https://api.github.com/",
     "storage",
     "tabs"
   ],
