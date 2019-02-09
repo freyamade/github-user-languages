@@ -8,26 +8,19 @@ echo "Building the Code"
 npm run build
 echo "Done!"
 
-# Create the distribution zipfile
-echo "Building the AMO distribution zip"
-cd dist
-zip -r ../dist.zip *
-cd ..
-echo "Done!"
-
 # Deploy to AMO
 echo "Deploying to AMO"
+cd dist
 npm run deploy-amo
 echo "Done!"
 
 # When deploying to the Chrome Store we have to remove the "applications" key from the manifest
 echo "Removing the applications key from the manifest for Chrome"
-echo $(jq 'del(.applications)' dist/manifest.json) > dist/manifest.json
+echo $(jq 'del(.applications)' manifest.json) > manifest.json
 echo "Done!"
 
 # Re-zip
 echo "Building the Chrome distribution zip"
-cd dist
 zip -r ../dist.zip *
 cd ..
 echo "Done!"
