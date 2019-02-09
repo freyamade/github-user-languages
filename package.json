@@ -9,18 +9,20 @@
     "ts-loader": "^4.4.1",
     "tslint": "^5.10.0",
     "typescript": "^2.9.2",
+    "web-ext": "^2.9.3",
     "webpack": "^4.12.0",
     "webpack-cli": "^3.0.8",
     "webpack-merge": "^4.1.3"
   },
   "license": "MIT",
-  "main": "index.js",
   "name": "github-user-languages",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/crnbrdrck/github-user-languages.git"
   },
   "scripts": {
+    "deploy-amo": "web-ext sign --api-key=$AMO_ISSUER --api-secret=$AMO_SECRET",
     "build": "webpack --config webpack/webpack.prod.js",
     "watch": "webpack --config webpack/webpack.dev.js --watch"
   },
