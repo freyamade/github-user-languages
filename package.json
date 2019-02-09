@@ -22,9 +22,9 @@
     "url": "https://github.com/crnbrdrck/github-user-languages.git"
   },
   "scripts": {
-    "deploy-amo": "web-ext sign --api-key=$AMO_ISSUER --api-secret=$AMO_SECRET",
     "build": "webpack --config webpack/webpack.prod.js",
+    "deploy-amo": "web-ext sign --api-key=$AMO_ISSUER --api-secret=$AMO_SECRET",
     "watch": "webpack --config webpack/webpack.dev.js --watch"
   },
-  "version": "1.0.5"
+  "version": "1.0.6"
 }
