@@ -1,3 +1,11 @@
+# 1.0.6
+- Automated deployment to AMO for Firefox users
+- Updated colours
+    - Go
+    - Dockerfile
+- Fixed security vulnerability due to lodash versioning
+    - [CVE-2018-16487](https://nvd.nist.gov/vuln/detail/CVE-2018-16487)
+
 # 1.0.5
 - Fixed an issue where the chart was being displayed too small when there was a large number of languages and the legend was displayed
 
