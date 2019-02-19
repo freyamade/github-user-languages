@@ -20,7 +20,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/crnbrdrck/github-user-languages.git"
+    "url": "https://github.com/freyamade/github-user-languages.git"
   },
   "scripts": {
     "build": "webpack --config webpack/webpack.prod.js",

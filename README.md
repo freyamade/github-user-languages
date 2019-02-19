@@ -1,6 +1,6 @@
 ![GitHub User Languages Logo](./img/logotype_horizontal.png?raw=true)
 
-[![Travis branch](https://img.shields.io/travis/crnbrdrck/github-user-languages/master.svg?style=flat-square)](https://travis-ci.org/crnbrdrck/github-user-languages)
+[![Travis branch](https://img.shields.io/travis/freyamade/github-user-languages/master.svg?style=flat-square)](https://travis-ci.org/freyamade/github-user-languages)
 
 A little Chrome Extension that draws a pie chart on GitHub User / Org profiles detailing their language breakdown. Built with TypeScript, Chart.js and :heart:.
 
@@ -40,7 +40,7 @@ The text input allows you to add a GitHub API personal token, which allows for a
 ## Want to Contribute?
 Contributing doesn't just mean writing code!
 
-If you think of anything that could benefit the project, open up an [issue](https://github.com/crnbrdrck/github-user-languages/issues).
+If you think of anything that could benefit the project, open up an [issue](https://github.com/freyamade/github-user-languages/issues).
 
 I'm also not that great at writing READMEs so help with this one would be very welcome!
 
@@ -63,7 +63,7 @@ I'm also not that great at writing READMEs so help with this one would be very w
 Boilerplate used to set up this project can be found at https://github.com/chibat/chrome-extension-typescript-starter
 
 ## Contributors
-- [crnbrdrck](https://github.com/crnbrdrck): Creator, maintainer
+- [freyamade](https://github.com/freyamade): Creator, maintainer
 - [Strum355](https://github.com/strum355): Cleaned up promises with async + await, all round TypeScript mentor
 - [ihtiht](https://github.com/ihtiht): Designer of the amazing logo :heart:
 
