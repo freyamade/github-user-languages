@@ -4,6 +4,7 @@ interface ISyncData {
   showLegend : boolean
   personalAccessToken : string
   personalAccessTokenOwner : string
+  chartType : string
 }
 
 // Helper methods
@@ -31,26 +32,36 @@ async function getUsernameForToken(token: string) : Promise<string | null> {
 }
 
 // Get the old data of both of these values
-chrome.storage.sync.get(['showLegend', 'personalAccessToken', 'personalAccessTokenOwner'], (result: ISyncData) => {
+let storageData = ['showLegend', 'personalAccessToken', 'personalAccessTokenOwner', 'chartType']
+chrome.storage.sync.get(storageData, (result: ISyncData) => {
   setup(result)
 })
 
 async function setup(result: ISyncData) {
   const chartLegendCheck : HTMLInputElement = document.getElementById('show-legend') as HTMLInputElement
   const personalTokenInput : HTMLInputElement = document.getElementById('personal-access-token') as HTMLInputElement
+  const chartTypeInput : HTMLInputElement = document.getElementById('chart-type') as HTMLInputElement
 
   const showLegend = result.showLegend || false
   const personalAccessToken : string = result.personalAccessToken || ''
   const personalAccessTokenOwner : string = result.personalAccessTokenOwner || ''
+  const chartType : string = result.chartType || 'pie'
 
   // Set up the initial values of the inputs based on the storage read values
   chartLegendCheck.checked = showLegend
   personalTokenInput.value = personalAccessToken
+  chartTypeInput.value = chartType
 
   // Add event listeners to get the values when they change
   chartLegendCheck.addEventListener('click', () => {
     // Store the new value of the checkbox in sync storage
     chrome.storage.sync.set({showLegend: chartLegendCheck.checked})
+  }, false)
+  chartTypeInput.addEventListener('change', () => {
+    // Store the new value of the select in sync storage
+    const newChartType = chartTypeInput.options[chartTypeInput.selectedIndex].value
+    chrome.storage.sync.set({chartType: newChartType})
+    console.log(`Chart type is now ${newChartType}`)
   }, false)
 
   personalTokenInput.addEventListener('change', async () => {
@@ -68,6 +79,7 @@ async function setup(result: ISyncData) {
   // Now enable the inputs for user input
   chartLegendCheck.disabled = false
   personalTokenInput.disabled = false
+  chartTypeInput.disabled = false
 }
 
 // Set up a listener for a click on the link to open a tab to generate a token

@@ -133,13 +133,14 @@ class LanguageDisplay {
       this.container.appendChild(this.canvas)
     }
     // Get whether or not we should draw the legend from the sync storage and draw the chart
-    chrome.storage.sync.get(['showLegend'], (result) => {
+    chrome.storage.sync.get(['showLegend', 'chartType'], (result) => {
       const showLegend = result.showLegend || false
-      this.draw(colorData, repoData, showLegend)
+      // const chartType = result.chartType || 'pie'
+      this.draw(colorData, repoData, showLegend, chartType)
     })
   }
 
-  private draw(colorData: IColorData, repoData: IRepoData, showLegend: boolean) {
+  private draw(colorData: IColorData, repoData: IRepoData, showLegend: boolean, chartType: string) {
     // Create the pie chart and populate it with the repo data
     const counts = []
     const colors = []
@@ -187,8 +188,11 @@ class LanguageDisplay {
       if ('showLegend' in changes) {
         // Update the chart to set the legend display to the newValue of the storage
         chart.options.legend.display = changes.showLegend.newValue
-        chart.update()
       }
+      if ('chartType' in changes) {
+        chart.type = changes.chartType.newValue
+      }
+      chart.update()
     })
   }
 

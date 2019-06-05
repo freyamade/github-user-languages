@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <style>
         body {
@@ -16,6 +17,9 @@
         input[type="checkbox"] {
             vertical-align: middle;
         }
+        #chart-type-formset {
+            float: right;
+        }
         footer {
             text-align: right;
         }
@@ -29,6 +33,14 @@
         <h4>Chart Settings</h4>
         <input type="checkbox" id="show-legend" disabled />
         <label for="show-legend"><span>Show Legend</span></label>
+
+        <span id="chart-type-formset">
+            <select id="chart-type" disabled>
+                <option value="pie">Pie</option>
+                <option value="doughnut">Doughnut</option>
+            </select>
+            <label for="chart-type"><span>Chart Type</span></label>
+        </span>
 
         <h4>API Token <small>Click out of input to save</small></h4>
         <label for="personal-access-token">Token</label>
