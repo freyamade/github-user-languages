@@ -1,3 +1,10 @@
+# 1.1.0
+- Added a new field to the options popup to allow for choosing between different types of charts
+    - Currently the available types are;
+        - [`pie`](https://www.chartjs.org/docs/latest/charts/doughnut.html)
+        - [`doughnut`](https://www.chartjs.org/docs/latest/charts/doughnut.html)
+    - I've tested the other available variants available in ChartJS and none of the rest really suit the extension too well
+
 # 1.0.7
 - Fixed security vulnerablity in js-yaml allowing for code execution in `.load()`
     - Automated update by dependabot
