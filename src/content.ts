@@ -135,7 +135,7 @@ class LanguageDisplay {
     // Get whether or not we should draw the legend from the sync storage and draw the chart
     chrome.storage.sync.get(['showLegend', 'chartType'], (result) => {
       const showLegend = result.showLegend || false
-      // const chartType = result.chartType || 'pie'
+      const chartType = result.chartType || 'pie'
       this.draw(colorData, repoData, showLegend, chartType)
     })
   }
@@ -169,7 +169,7 @@ class LanguageDisplay {
           display: showLegend,
         },
       },
-      type: 'pie',
+      type: chartType,
     })
 
     // Add event listeners to get the slice that was clicked on
@@ -188,11 +188,8 @@ class LanguageDisplay {
       if ('showLegend' in changes) {
         // Update the chart to set the legend display to the newValue of the storage
         chart.options.legend.display = changes.showLegend.newValue
+        chart.update()
       }
-      if ('chartType' in changes) {
-        chart.type = changes.chartType.newValue
-      }
-      chart.update()
     })
   }
 

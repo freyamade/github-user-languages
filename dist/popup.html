@@ -17,9 +17,6 @@
         input[type="checkbox"] {
             vertical-align: middle;
         }
-        #chart-type-formset {
-            float: right;
-        }
         footer {
             text-align: right;
         }
@@ -34,13 +31,13 @@
         <input type="checkbox" id="show-legend" disabled />
         <label for="show-legend"><span>Show Legend</span></label>
 
-        <span id="chart-type-formset">
-            <select id="chart-type" disabled>
-                <option value="pie">Pie</option>
-                <option value="doughnut">Doughnut</option>
-            </select>
-            <label for="chart-type"><span>Chart Type</span></label>
-        </span>
+        <br />
+
+        <select id="chart-type" disabled>
+            <option value="pie">Pie</option>
+            <option value="doughnut">Doughnut</option>
+        </select>
+        <label for="chart-type"><span>Chart Type (requires reload)</span></label>
 
         <h4>API Token <small>Click out of input to save</small></h4>
         <label for="personal-access-token">Token</label>

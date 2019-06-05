@@ -40,7 +40,7 @@ chrome.storage.sync.get(storageData, (result: ISyncData) => {
 async function setup(result: ISyncData) {
   const chartLegendCheck : HTMLInputElement = document.getElementById('show-legend') as HTMLInputElement
   const personalTokenInput : HTMLInputElement = document.getElementById('personal-access-token') as HTMLInputElement
-  const chartTypeInput : HTMLInputElement = document.getElementById('chart-type') as HTMLInputElement
+  const chartTypeInput : HTMLSelectElement = document.getElementById('chart-type') as HTMLSelectElement
 
   const showLegend = result.showLegend || false
   const personalAccessToken : string = result.personalAccessToken || ''
@@ -61,7 +61,6 @@ async function setup(result: ISyncData) {
     // Store the new value of the select in sync storage
     const newChartType = chartTypeInput.options[chartTypeInput.selectedIndex].value
     chrome.storage.sync.set({chartType: newChartType})
-    console.log(`Chart type is now ${newChartType}`)
   }, false)
 
   personalTokenInput.addEventListener('change', async () => {
