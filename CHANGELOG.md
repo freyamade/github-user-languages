@@ -1,3 +1,8 @@
+# 1.0.7
+- Fixed security vulnerablity in js-yaml allowing for code execution in `.load()`
+    - Automated update by dependabot
+    - [CHANGELOG](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md#3131--2019-04-05)
+
 # 1.0.6
 - Automated deployment to AMO for Firefox users
 - Updated colours
