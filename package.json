@@ -6,7 +6,7 @@
   "description": "A little Chrome Extension that draws a pie chart on GitHub User / Org profiles detailing their language breakdown. Built with TypeScript and Chart.js.",
   "devDependencies": {
     "@types/chrome": "0.0.69",
-    "lodash": ">=4.17.11",
+    "lodash": ">=4.17.13",
     "ts-loader": "^4.4.1",
     "tslint": "^5.10.0",
     "typescript": "^2.9.2",
