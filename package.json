@@ -28,5 +28,5 @@
     "deploy-amo": "web-ext sign --api-key=$AMO_ISSUER --api-secret=$AMO_SECRET",
     "watch": "webpack --config webpack/webpack.dev.js --watch"
   },
-  "version": "1.0.7"
+  "version": "1.0.8"
 }

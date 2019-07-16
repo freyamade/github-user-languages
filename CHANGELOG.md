@@ -1,4 +1,4 @@
-# 1.0.7
+# 1.0.8
 - Fixed security vulnerablity in js-yaml allowing for code execution in `.load()`
     - Automated update by dependabot
     - [CHANGELOG](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md#3131--2019-04-05)
@@ -6,6 +6,11 @@
     - Automated update by dependabot
     - [CVE-2019-10744](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-10744)
 - Other `npm audit` fixes.
+- Fixed build script issues to fix deployment of extension to both stores.
+
+# 1.0.7
+- This version never actually deployed to either store
+    - Issues in the CI build script prevented this from being deployed
 
 # 1.0.6
 - Automated deployment to AMO for Firefox users
