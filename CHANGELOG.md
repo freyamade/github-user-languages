@@ -2,6 +2,10 @@
 - Fixed security vulnerablity in js-yaml allowing for code execution in `.load()`
     - Automated update by dependabot
     - [CHANGELOG](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md#3131--2019-04-05)
+- Fixed prototype pollution issue in lodash
+    - Automated update by dependabot
+    - [CVE-2019-10744](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-10744)
+- Other `npm audit` fixes.
 
 # 1.0.6
 - Automated deployment to AMO for Firefox users
@@ -15,7 +19,7 @@
 - Fixed an issue where the chart was being displayed too small when there was a large number of languages and the legend was displayed
 
 # 1.0.4
-- Added default scope to token URL (thanks [@Strum355](https://github.com/strum355)
+- Added default scope to token URL (thanks [@Strum355](https://github.com/strum355))
 
 # 1.0.3
 - Updated colours json file for new Crystal colour
