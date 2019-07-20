@@ -6,7 +6,6 @@
     - Automated update by dependabot
     - [CVE-2019-10744](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-10744)
 - Other `npm audit` fixes.
-- Fixed build script issues to fix deployment of extension to both stores.
 
 # 1.0.7
 - This version never actually deployed to either store
