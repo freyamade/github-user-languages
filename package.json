@@ -24,7 +24,7 @@
     "url": "https://github.com/freyamade/github-user-languages.git"
   },
   "scripts": {
-    "archive-src": "zip -r src.zip package.json src/ webpack/ tsconfig.json tslint.json README.md",
+    "archive-src": "zip -r src.zip package.json package-lock.json src/ webpack/ tsconfig.json tslint.json README.md",
     "build": "webpack --config webpack/webpack.prod.js",
     "deploy-amo": "web-ext sign --api-key=$AMO_ISSUER --api-secret=$AMO_SECRET",
     "watch": "webpack --config webpack/webpack.dev.js --watch"
