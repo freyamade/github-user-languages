@@ -26,9 +26,7 @@ jobs:
     - run: npm run build
 
     - name: Remove the firefox only keys from the manifest for chrome
-      uses: r26d/jq-action@master
-      with:
-        cmd: cp dist/manifest.json dist/manifest.old && jq 'del(.browser_specific_settings)' dist/manifest.old > dist/manifest.json
+      run: node chromify.js
 
     - name: Create the Chrome zip
       working-directory: dist
