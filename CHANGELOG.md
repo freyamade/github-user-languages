@@ -2,6 +2,7 @@
 - Fixed large number of security vulnerabilities (thanks Dependabot)
 - Fixing auto-deploy
 - Updated colour list
+- Updated all dependency libraries to latest versions
 
 # 1.0.8
 - Fixed security vulnerablity in js-yaml allowing for code execution in `.load()`
