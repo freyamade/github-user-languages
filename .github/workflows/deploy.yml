@@ -28,7 +28,7 @@ jobs:
     # Deploy to Firefox first
     - name: Deploy to Firefox Addons
       working-directory: dist
-      run: npx web-ext sign --channel=unlisted --api-key="$AMO_ISSUER" --api-secret="$AMO_SECRET"
+      run: npx web-ext sign --channel=unlisted --api-key="${{ secrets.AMO_ISSUER }}" --api-secret="${{ secrets.AMO_SECRET }}"
 
     # Next, change the manifest and prep the zip for uploading to chrome webstore
     - name: Remove the firefox only stuff from the manifest for chrome
@@ -43,9 +43,9 @@ jobs:
     - name: Upload to Chrome
       uses:  Passiverecords/chrome-extension-upload-action@1.4.1
       with:
-        refresh-token: '${REFRESH_TOKEN}'
-        client-id: '${CLIENT_ID}'
-        client-secret: '${CLIENT_SECRET}'
+        refresh-token: '${{ secrets.REFRESH_TOKEN }}'
+        client-id: '${{ secrets.CLIENT_ID }}'
+        client-secret: '${{ secrets.CLIENT_SECRET }}'
         file-name: './dist.zip'
         app-id: 'kikdmnikeponomghepmfipgiijlmfhfl'
         publish: false
