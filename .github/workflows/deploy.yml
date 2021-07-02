@@ -41,7 +41,7 @@ jobs:
       run: zip -r ../dist.zip *
 
     - name: Upload to Chrome
-      uses: Klemensas/chrome-extension-upload-action@1.4.1
+      uses:  Passiverecords/chrome-extension-upload-action @1.4.1
       with:
         refresh-token: '${REFRESH_TOKEN}'
         client-id: '${CLIENT_ID}'
