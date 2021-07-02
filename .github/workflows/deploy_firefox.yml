@@ -1,0 +1,30 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Deploy Firefox
+
+on:
+  push:
+    tags:
+      - v**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up node
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16.x
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build
+
+    # Deploy to Firefox first
+    - name: Deploy to Firefox Addons
+      working-directory: dist
+      run: npx web-ext sign --channel=listed --api-key="${{ secrets.AMO_ISSUER }}" --api-secret="${{ secrets.AMO_SECRET }}"
+      continue-on-error: true
