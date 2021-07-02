@@ -5,8 +5,6 @@ name: Build the dist zips, and deploy them using the custom actions
 
 on:
   push:
-    branches:
-      - master
     tags:
       - v**
 
@@ -28,7 +26,8 @@ jobs:
     # Deploy to Firefox first
     - name: Deploy to Firefox Addons
       working-directory: dist
-      run: npx web-ext sign --channel=unlisted --api-key="${{ secrets.AMO_ISSUER }}" --api-secret="${{ secrets.AMO_SECRET }}"
+      run: npx web-ext sign --channel=listed --api-key="${{ secrets.AMO_ISSUER }}" --api-secret="${{ secrets.AMO_SECRET }}"
+      continue-on-error: true
 
     # Next, change the manifest and prep the zip for uploading to chrome webstore
     - name: Remove the firefox only stuff from the manifest for chrome
@@ -48,4 +47,4 @@ jobs:
         client-secret: '${{ secrets.CLIENT_SECRET }}'
         file-name: './dist.zip'
         app-id: 'kikdmnikeponomghepmfipgiijlmfhfl'
-        publish: false
+        publish: true
