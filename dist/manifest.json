@@ -1,9 +1,4 @@
 {
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "extension@github-user-languages.github.com"
-    }
-  },
   "author": "freyamade",
   "background": {
     "persistent": false,
@@ -14,6 +9,11 @@
   "browser_action": {
     "default_icon": "images/github-user-languages.128.png",
     "default_popup": "popup.html"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "extension@github-user-languages.github.com"
+    }
   },
   "content_scripts": [
     {
@@ -38,7 +38,7 @@
     "tabs"
   ],
   "short_name": "github-user-languages",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "web_accessible_resources": [
     "colors.json"
   ]
