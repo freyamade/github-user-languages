@@ -1,6 +1,9 @@
 // This script is excuted directly from inside the page
-import { Chart } from 'chart.js'
+import { Chart, PieController, Tooltip, Legend, ArcElement, LineElement } from 'chart.js'
 import { Data, ICachedData, IColorData, IRepoData, ITokenData } from './data'
+
+// Register the parts of Chart.js I need
+Chart.register(PieController, Tooltip, Legend, ArcElement, LineElement)
 
 class LanguageDisplay {
   private canvas : HTMLCanvasElement
@@ -164,8 +167,10 @@ class LanguageDisplay {
         labels: langs,
       },
       options: {
-        legend: {
-          display: showLegend,
+        plugins: {
+          legend: {
+            display: showLegend,
+          },
         },
       },
       type: 'pie',
@@ -174,10 +179,10 @@ class LanguageDisplay {
     // Add event listeners to get the slice that was clicked on
     // Will redirect to a list of the user's repos of that language
     this.canvas.onclick = (e) => {
-      // Have to encode it in case of C++ and C#
-      const slice = chart.getElementsAtEvent(e)[0]
+      const slice = chart.getElementsAtEventForMode(e, 'nearest', {intersect: true}, true)[0]
       if (slice === undefined) { return }
-      const language = encodeURIComponent(langs[slice._index].toLowerCase())
+      // Have to encode it in case of C++ and C#
+      const language = encodeURIComponent(langs[slice.index].toLowerCase())
       // Redirect to the user's list of that language
       window.location.href = `https://github.com/${this.username}?tab=repositories&language=${language}`
     }
@@ -186,7 +191,7 @@ class LanguageDisplay {
     chrome.storage.onChanged.addListener((changes, namespace) => {
       if ('showLegend' in changes) {
         // Update the chart to set the legend display to the newValue of the storage
-        chart.options.legend.display = changes.showLegend.newValue
+        chart.options.plugins.legend.display = changes.showLegend.newValue
         chart.update()
       }
     })

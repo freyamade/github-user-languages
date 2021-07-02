@@ -1,0 +1,51 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Build the dist zips, and deploy them using the custom actions
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up node
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16.x
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build
+
+    # Deploy to Firefox first
+    - name: Deploy to Firefox Addons
+      working-directory: dist
+      run: npx web-ext sign --channel=unlisted --api-key=$AMO_ISSUER --api-secret=$AMO_SECRET
+
+    # Next, change the manifest and prep the zip for uploading to chrome webstore
+    - name: Remove the firefox only stuff from the manifest for chrome
+      uses: r26d/jq-action@master
+      with:
+        cmd: $(jq 'del(.browser_specific_settings)' manifest.json) > manifest.json
+
+    - name: Create the Chrome zip
+      working-directory: dist
+      run: zip -r ../dist.zip *
+
+    - name: Upload to Chrome
+      uses: Klemensas/chrome-extension-upload-action@1.4.1
+      with:
+        refresh-token: '${REFRESH_TOKEN}'
+        client-id: '${CLIENT_ID}'
+        client-secret: '${CLIENT_SECRET}'
+        file-name: './dist.zip'
+        app-id: 'kikdmnikeponomghepmfipgiijlmfhfl'
+        publish: false

@@ -1,3 +1,10 @@
+# 1.0.9
+- Fixed large number of security vulnerabilities (thanks Dependabot)
+- Fixing auto-deploy
+- Updated colour list
+- Updated all dependency libraries to latest versions
+- Moved from Travis CI to GitHub actions
+
 # 1.0.8
 - Fixed security vulnerablity in js-yaml allowing for code execution in `.load()`
     - Automated update by dependabot
