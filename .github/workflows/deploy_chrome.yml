@@ -27,9 +27,8 @@ jobs:
 
     - name: Remove the firefox only keys from the manifest for chrome
       uses: r26d/jq-action@master
-      working-directory: dist
       with:
-        cmd: cp manifest.json manifest.old && jq 'del(.browser_specific_settings)' manifest.old > manifest.json
+        cmd: cp dist/manifest.json dist/manifest.old && jq 'del(.browser_specific_settings)' dist/manifest.old > dist/manifest.json
 
     - name: Create the Chrome zip
       working-directory: dist
