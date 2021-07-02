@@ -1,5 +1,5 @@
 {
-  "applications": {
+  "browser_specific_settings": {
     "gecko": {
       "id": "extension@github-user-languages.github.com"
     }
