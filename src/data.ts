@@ -1,7 +1,9 @@
 // Class for handling the fetch of repo and color data, be it from cache or the API
 // Allows the content script to be agnostic as to where the data is coming from as this class will use promises
+import { APIError } from './errors'
 
 const CACHE_THRESHOLD = 36e5 // 1 hour
+const STATUS_FORBIDDEN = 401 // If the token is invalid, the api will return this
 
 export interface IRepoData {
   [language: string] : number
@@ -145,6 +147,16 @@ export class Data {
     // Use Promise.resolve to wait for the result
     let response = await fetch(url, {headers})
     linkHeader = response.headers.get('link')
+
+    // Stumbled across this little error tonight
+    if (response.status !== 200 ) {
+      console.error(response)
+      throw new APIError(
+        `Incorrect status received from GitHub API. Expected 200, received; ${response.status}. ` +
+        `See console for more details.`,
+      )
+    }
+
     let data = await response.json()
     // From this JSON response, compile repoData (to reduce memory usage) and then see if there's more to fetch
     repoData = this.updateRepoData(repoData, data)

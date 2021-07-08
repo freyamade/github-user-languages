@@ -1,6 +1,7 @@
 // This script is excuted directly from inside the page
 import { Chart, PieController, Tooltip, Legend, ArcElement, LineElement } from 'chart.js'
 import { Data, ICachedData, IColorData, IRepoData, ITokenData } from './data'
+import { APIError } from './errors'
 
 // Register the parts of Chart.js I need
 Chart.register(PieController, Tooltip, Legend, ArcElement, LineElement)
@@ -59,17 +60,19 @@ class LanguageDisplay {
       // Build the graph
       this.build(colorData, repoData)
     } catch (e) {
+      console.error(`gh-user-langs: Error creating graph: ${e}`)
       // This is where we need to add the error display
       // Create the container, add it to the page and then add an error message to it
       this.container = this.createContainer()
       this.parent.appendChild(this.container)
-      // Create an error message
-      const errorMessage = document.createTextNode(
-        'An error occurred when fetching data from the GitHub API. This could be due to rate-limiting.' +
-        ' Please try again later or add a personal access token for increase API usage.',
-      )
-      this.parent.appendChild(errorMessage)
-      console.error(`gh-user-langs: Error creating graph: ${e}`)
+
+      // If the error is an api error, just get the message out of it, otherwise insert generic message
+      let message = 'An error occurred when fetching data from the GitHub API. This could be due to rate-limiting.' +
+        ' Please try again later or add a personal access token for increase API usage, or see console for more info.'
+      if (e instanceof APIError) {
+        message = e.message
+      }
+      this.parent.appendChild(document.createTextNode(message))
     }
   }
 
