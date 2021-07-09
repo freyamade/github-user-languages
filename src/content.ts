@@ -24,7 +24,7 @@ class LanguageDisplay {
     if (this.parent === null) {
       // Org page, set the flag as such
       this.isOrg = true
-      this.parent = document.querySelector('div.col-4.float-right.pl-4')
+      this.parent = document.querySelector('div.js-profile-tab-count-container')
     }
     this.canvas = null
     this.container = null
@@ -64,7 +64,6 @@ class LanguageDisplay {
       // This is where we need to add the error display
       // Create the container, add it to the page and then add an error message to it
       this.container = this.createContainer()
-      this.parent.appendChild(this.container)
 
       // If the error is an api error, just get the message out of it, otherwise insert generic message
       let message = 'An error occurred when fetching data from the GitHub API. This could be due to rate-limiting.' +
@@ -93,6 +92,7 @@ class LanguageDisplay {
     const header = document.createElement('h4')
     const headerText = document.createTextNode('Languages')
     header.appendChild(headerText)
+
     if (this.isOrg) {
       // Need to create an extra div for the Box-body class
       this.orgDiv = document.createElement('div')
@@ -103,12 +103,22 @@ class LanguageDisplay {
       // Add the inner div to the outer one
       this.orgDiv.appendChild(header)
       div.appendChild(this.orgDiv)
+
+      // Get the last Box child of the parent div, and insert this box in after that
+      const siblings = this.parent.querySelectorAll('div.Box')
+      const sibling = siblings[siblings.length - 1]
+      this.parent.insertBefore(div, sibling.nextSibling)
     }
+
     else {
-      div.classList.add('border-top', 'py-3', 'clearfix')
-      header.classList.add('mb-1', 'h4')
+      div.classList.add('border-top', 'color-border-secondary', 'pt-3', 'mt-3', 'clearfix', 'hide-sm', 'hide-md')
+      header.classList.add('mb-2', 'h4')
       div.appendChild(header)
+
+      // Append the container to the parent
+      this.parent.appendChild(div)
     }
+
     return div
   }
 
@@ -128,7 +138,6 @@ class LanguageDisplay {
 
   private build(colorData: IColorData, repoData: IRepoData) {
     this.container = this.createContainer()
-    this.parent.appendChild(this.container)
     // Get the width and height of the container and use it to build the canvas
     const width = +(window.getComputedStyle(this.container).width.split('px')[0])
     this.canvas = this.createCanvas(width)
