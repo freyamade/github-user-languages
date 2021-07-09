@@ -93,6 +93,7 @@ class LanguageDisplay {
     const header = document.createElement('h4')
     const headerText = document.createTextNode('Languages')
     header.appendChild(headerText)
+
     if (this.isOrg) {
       // Need to create an extra div for the Box-body class
       this.orgDiv = document.createElement('div')
@@ -104,11 +105,13 @@ class LanguageDisplay {
       this.orgDiv.appendChild(header)
       div.appendChild(this.orgDiv)
     }
+
     else {
-      div.classList.add('border-top', 'py-3', 'clearfix')
-      header.classList.add('mb-1', 'h4')
+      div.classList.add('border-top', 'color-border-secondary', 'pt-3', 'mt-3', 'clearfix', 'hide-sm', 'hide-md')
+      header.classList.add('mb-2', 'h4')
       div.appendChild(header)
     }
+
     return div
   }
 
