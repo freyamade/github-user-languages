@@ -3,7 +3,6 @@
 import { GHULError } from './errors'
 
 const CACHE_THRESHOLD = 36e5 // 1 hour
-const STATUS_FORBIDDEN = 401 // If the token is invalid, the api will return this
 
 export interface IRepoData {
   [language: string] : number
