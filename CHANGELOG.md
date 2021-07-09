@@ -1,3 +1,5 @@
+# 1.0.11
+- Handling error response codes from the Github API instead of just making them a generic error
 
 # 1.0.10
 - Fixed large number of security vulnerabilities (thanks Dependabot)

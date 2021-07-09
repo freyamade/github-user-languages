@@ -1,5 +1,6 @@
 // Class for handling the fetch of repo and color data, be it from cache or the API
 // Allows the content script to be agnostic as to where the data is coming from as this class will use promises
+import { GHULError } from './errors'
 
 const CACHE_THRESHOLD = 36e5 // 1 hour
 
@@ -145,6 +146,16 @@ export class Data {
     // Use Promise.resolve to wait for the result
     let response = await fetch(url, {headers})
     linkHeader = response.headers.get('link')
+
+    // Stumbled across this little error tonight
+    if (response.status !== 200 ) {
+      console.error(response)
+      throw new GHULError(
+        `Incorrect status received from GitHub API. Expected 200, received; ${response.status}. ` +
+        'See console for more details.',
+      )
+    }
+
     let data = await response.json()
     // From this JSON response, compile repoData (to reduce memory usage) and then see if there's more to fetch
     repoData = this.updateRepoData(repoData, data)

@@ -38,7 +38,7 @@
     "tabs"
   ],
   "short_name": "github-user-languages",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "web_accessible_resources": [
     "colors.json"
   ]
