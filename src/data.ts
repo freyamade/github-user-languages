@@ -152,7 +152,7 @@ export class Data {
       console.error(response)
       throw new GHULError(
         `Incorrect status received from GitHub API. Expected 200, received; ${response.status}. ` +
-        `See console for more details.`,
+        'See console for more details.',
       )
     }
 

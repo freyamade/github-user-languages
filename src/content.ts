@@ -1,5 +1,5 @@
 // This script is excuted directly from inside the page
-import { Chart, PieController, Tooltip, Legend, ArcElement, LineElement } from 'chart.js'
+import { ArcElement, Chart, Legend, LineElement, PieController, Tooltip } from 'chart.js'
 import { Data, ICachedData, IColorData, IRepoData, ITokenData } from './data'
 import { GHULError } from './errors'
 
