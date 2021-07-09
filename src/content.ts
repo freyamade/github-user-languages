@@ -1,7 +1,7 @@
 // This script is excuted directly from inside the page
 import { Chart, PieController, Tooltip, Legend, ArcElement, LineElement } from 'chart.js'
 import { Data, ICachedData, IColorData, IRepoData, ITokenData } from './data'
-import { APIError } from './errors'
+import { GHULError } from './errors'
 
 // Register the parts of Chart.js I need
 Chart.register(PieController, Tooltip, Legend, ArcElement, LineElement)
@@ -69,7 +69,7 @@ class LanguageDisplay {
       // If the error is an api error, just get the message out of it, otherwise insert generic message
       let message = 'An error occurred when fetching data from the GitHub API. This could be due to rate-limiting.' +
         ' Please try again later or add a personal access token for increase API usage, or see console for more info.'
-      if (e instanceof APIError) {
+      if (e instanceof GHULError) {
         message = e.message
       }
       this.parent.appendChild(document.createTextNode(message))

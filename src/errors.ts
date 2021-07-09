@@ -1,6 +1,6 @@
-export class APIError extends Error {
+export class GHULError extends Error {
   constructor(message: string) {
     super(message)
-    this.name = 'APIError'
+    this.name = 'GHULError'
   }
 }
