@@ -1,3 +1,7 @@
+# 1.0.12
+- Fixing issues with displaying the chart on org profiles
+- Minor style fixes to the chart container on personal profiles
+
 # 1.0.11
 - Handling error response codes from the Github API instead of just making them a generic error
 
