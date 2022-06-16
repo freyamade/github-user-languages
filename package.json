@@ -30,5 +30,5 @@
     "lint": "tslint src/*.ts",
     "watch": "webpack --config webpack/webpack.dev.js --watch"
   },
-  "version": "1.0.12"
+  "version": "1.0.13"
 }

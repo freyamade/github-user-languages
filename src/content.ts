@@ -6,25 +6,35 @@ import { GHULError } from './errors'
 // Register the parts of Chart.js I need
 Chart.register(PieController, Tooltip, Legend, ArcElement, LineElement)
 
+// Set an XPath syntax to find User and Organisation containers for storing the graph
+const ORG_XPATH = '//*[text() = "Top languages"]'
+const USER_CONTAINER_SELECTOR = 'div[itemtype="http://schema.org/Person"]'
+
 class LanguageDisplay {
   private canvas : HTMLCanvasElement
   private container : HTMLDivElement
   private data : Data
-  private isOrg : boolean = false
-  // Special extra div that the canvas needs to be drawn into on org pages
-  private orgDiv : HTMLDivElement
   private parent : HTMLDivElement
   private username : string
 
   constructor(username: string) {
     this.username = username
-    // Fetch the lang data now
-    this.parent = document.querySelector('div[itemtype="http://schema.org/Person"]')
+    this.parent = document.querySelector(USER_CONTAINER_SELECTOR)
+
+    // Maintain a flag to find out of the page is an organisation one or not
+    let isOrg = false
     // Handling for orgs
     if (this.parent === null) {
-      // Org page, set the flag as such
-      this.isOrg = true
-      this.parent = document.querySelector('div.js-profile-tab-count-container')
+      // Org page, use the XPATH to find the correct node and set flag
+      isOrg = true
+      const orgLanguagesHeader = document.evaluate(
+        ORG_XPATH,
+        document,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null,
+      ).singleNodeValue
+      this.parent = orgLanguagesHeader.parentElement.parentElement.parentElement as HTMLDivElement
     }
     this.canvas = null
     this.container = null
@@ -36,7 +46,9 @@ class LanguageDisplay {
         token,
         username: tokenOwner,
       }
-      this.data = new Data(username, this.isOrg, tokenData)
+
+      // Fetch the lang data now
+      this.data = new Data(username, isOrg, tokenData)
       this.getData()
     })
   }
@@ -91,33 +103,14 @@ class LanguageDisplay {
     const div = document.createElement('div')
     const header = document.createElement('h4')
     const headerText = document.createTextNode('Languages')
+
     header.appendChild(headerText)
+    div.classList.add('border-top', 'color-border-secondary', 'pt-3', 'mt-3', 'clearfix', 'hide-sm', 'hide-md')
+    header.classList.add('mb-2', 'h4')
+    div.appendChild(header)
 
-    if (this.isOrg) {
-      // Need to create an extra div for the Box-body class
-      this.orgDiv = document.createElement('div')
-      // Set up the classes
-      this.orgDiv.classList.add('Box-body')
-      div.classList.add('Box', 'mb-3')
-      header.classList.add('f4', 'mb-2', 'text-normal')
-      // Add the inner div to the outer one
-      this.orgDiv.appendChild(header)
-      div.appendChild(this.orgDiv)
-
-      // Get the last Box child of the parent div, and insert this box in after that
-      const siblings = this.parent.querySelectorAll('div.Box')
-      const sibling = siblings[siblings.length - 1]
-      this.parent.insertBefore(div, sibling.nextSibling)
-    }
-
-    else {
-      div.classList.add('border-top', 'color-border-secondary', 'pt-3', 'mt-3', 'clearfix', 'hide-sm', 'hide-md')
-      header.classList.add('mb-2', 'h4')
-      div.appendChild(header)
-
-      // Append the container to the parent
-      this.parent.appendChild(div)
-    }
+    // Append the container to the parent
+    this.parent.appendChild(div)
 
     return div
   }
@@ -141,12 +134,8 @@ class LanguageDisplay {
     // Get the width and height of the container and use it to build the canvas
     const width = +(window.getComputedStyle(this.container).width.split('px')[0])
     this.canvas = this.createCanvas(width)
-    if (this.isOrg) {
-      this.orgDiv.appendChild(this.canvas)
-    }
-    else {
-      this.container.appendChild(this.canvas)
-    }
+    this.container.appendChild(this.canvas)
+
     // Get whether or not we should draw the legend from the sync storage and draw the chart
     chrome.storage.sync.get(['showLegend'], (result) => {
       const showLegend = result.showLegend || false
