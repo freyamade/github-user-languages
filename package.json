@@ -24,9 +24,10 @@
     "url": "https://github.com/freyamade/github-user-languages.git"
   },
   "scripts": {
+    "archive-c-dist": "git stash && node chromify.js && cd dist && zip -r ../c-dist.zip * && git reset --hard && git stash pop",
+    "archive-ff-dist": "cd dist && zip -r ../ff-dist.zip *",
     "archive-src": "zip -r src.zip package.json package-lock.json src/ webpack/ tsconfig.json tslint.json README.md",
     "build": "webpack --config webpack/webpack.prod.js",
-    "deploy-amo": "web-ext sign --api-key=$AMO_ISSUER --api-secret=$AMO_SECRET",
     "lint": "tslint src/*.ts",
     "watch": "webpack --config webpack/webpack.dev.js --watch"
   },
