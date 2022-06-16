@@ -34,8 +34,7 @@
   "name": "GitHub User Languages",
   "permissions": [
     "https://api.github.com/",
-    "storage",
-    "tabs"
+    "storage"
   ],
   "short_name": "github-user-languages",
   "version": "1.0.12",
