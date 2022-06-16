@@ -14,8 +14,6 @@ class LanguageDisplay {
   private canvas : HTMLCanvasElement
   private container : HTMLDivElement
   private data : Data
-  // Special extra div that the canvas needs to be drawn into on org pages
-  private orgDiv : HTMLDivElement
   private parent : HTMLDivElement
   private username : string
 
