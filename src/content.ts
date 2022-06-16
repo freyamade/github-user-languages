@@ -27,7 +27,7 @@ class LanguageDisplay {
     if (this.parent === null) {
       // Org page, use the XPATH to find the correct node and set flag
       isOrg = true
-      let orgLanguagesHeader = document.evaluate(
+      const orgLanguagesHeader = document.evaluate(
         ORG_XPATH,
         document,
         null,
