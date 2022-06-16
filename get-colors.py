@@ -7,7 +7,7 @@ import os
 subprocess.call(['wget', 'https://raw.githubusercontent.com/github/linguist/master/lib/linguist/languages.yml', '-q'])
 
 with open('languages.yml') as f:
-    langs = yaml.load(f)
+    langs = yaml.load(f, Loader=yaml.FullLoader)
 os.remove('languages.yml')
 colors = {name: lang['color'] for name, lang in langs.items() if 'color' in lang}
 
