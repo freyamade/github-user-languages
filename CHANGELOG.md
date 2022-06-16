@@ -1,3 +1,8 @@
+# 1.0.13
+- Pulling in dependabot pull requests
+- Fixing organisation page displays
+- Removing unnecessary tabs permission declaration that would have got the extension removed from the Chrome Store
+
 # 1.0.12
 - Fixing issues with displaying the chart on org profiles
 - Minor style fixes to the chart container on personal profiles
