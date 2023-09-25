@@ -20,7 +20,6 @@ async function getUsernameForToken(token: string) : Promise<string | null> {
     if (response.ok) {
       const data = await response.json()
       username = data.login
-      console.log(username)
     }
     // If not okay, we'll leave the username as null
   }
@@ -61,7 +60,6 @@ async function setup(result: ISyncData) {
       personalAccessToken: token,
       personalAccessTokenOwner: username,
     }
-    console.log('setting data', storedData)
     chrome.storage.sync.set(storedData)
   }, false)
 

@@ -58,7 +58,6 @@ class LanguageDisplay {
     // Use the promise provided by the Data class to get all necessary data
     try {
       const values = await this.data.getData()
-      console.log(values)
       // 0 -> color data, 1 -> repo data
       const colorData : IColorData = values[0]
       const repoData : IRepoData = values[1]
@@ -154,7 +153,6 @@ class LanguageDisplay {
         // Prop is one of the languages
         langs.push(prop)
         counts.push(repoData[prop])
-        console.log(colorData[prop])
         colors.push(colorData[prop]['color'] || '#ededed')
       }
     }
@@ -202,7 +200,6 @@ class LanguageDisplay {
 
 }
 
-console.log('trying to boot up ghl')
 // Get the profile name for the current page, if the current page is an account page
 // The profile name will get retrieved from location.pathname
 let profileName : string | null = null
