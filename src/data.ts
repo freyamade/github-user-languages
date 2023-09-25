@@ -2,19 +2,30 @@
 // Allows the content script to be agnostic as to where the data is coming from as this class will use promises
 import { GHULError } from './errors'
 
-const CACHE_THRESHOLD = 36e5 // 1 hour
+const REPO_CACHE_THRESHOLD = 36e5 // 1 hour
+// The repo I pull from now is updated weekly so this makes sense
+const COLOR_CACHE_THRESHOLD = REPO_CACHE_THRESHOLD * 24 * 7 // 7 days
+const COLOR_CACHE_KEY = 'GHUL_COLORS'
+const COLOR_URL = 'https://raw.githubusercontent.com/ozh/github-colors/master/colors.json'
 
 export interface IRepoData {
   [language: string] : number
 }
 
 export interface IColorData {
-  [language: string] : string
+  [language: string] : {
+    color: string
+  }
 }
 
-export interface ICachedData {
+export interface ICachedRepoData {
   cachedAt : number
   data : IRepoData
+}
+
+export interface ICachedColorData {
+  cachedAt : number
+  data : IColorData
 }
 
 export interface ITokenData {
@@ -45,24 +56,43 @@ export class Data {
     return Promise.all([this.getColorData(), this.getRepoData()])
   }
 
+  // Fetches color data from local storage, or downloads it again if it's more than a week old
   protected async getColorData() : Promise<IColorData> {
-    const url = chrome.runtime.getURL('colors.json')
-    return (await fetch(url)).json()
+    let colorData : IColorData
+    try {
+      // Check the cache
+      const cachedData = await this.checkColorCache()
+      colorData = cachedData.data
+    } catch (e) {
+      colorData = await this.fetchColorData()
+      
+      // Cache the data
+      const cachedAt : number = new Date().valueOf()
+      const value : ICachedColorData = {
+        cachedAt,
+        data: colorData,
+      }
+      const cacheData = {}
+      cacheData[COLOR_CACHE_KEY] = value
+      chrome.storage.local.set(cacheData)
+    } finally {
+      return colorData
+    }
   }
 
-  protected checkCache() : Promise<ICachedData> {
+  protected checkColorCache() : Promise<ICachedColorData> {
     // Create a promise to retrieve the key from cache, or reject if it's not there
     return new Promise((resolve, reject) => {
       // return reject() // Uncomment this to turn off cache reads when in development
-      chrome.storage.local.get([this.username], (result) => {
+      chrome.storage.local.get([COLOR_CACHE_KEY], (result) => {
         // If the data isn't there, result will be an empty object
         if (Object.keys(result).length < 1) {
           // If we get to this point, there was nothing in cache or the cache was invalid
           return reject()
         }
         // We have a cached object, so check time of cache
-        const cachedData : ICachedData = result[this.username]
-        if (new Date().valueOf() - cachedData.cachedAt < CACHE_THRESHOLD) {
+        const cachedData : ICachedColorData = result[COLOR_CACHE_KEY]
+        if (new Date().valueOf() - cachedData.cachedAt < COLOR_CACHE_THRESHOLD) {
           // We can use the cached version
           // Set emptyAccount flag to false here too
           this.emptyAccount = false
@@ -74,11 +104,17 @@ export class Data {
     })
   }
 
+  // Fetch the new color data
+  protected async fetchColorData() : Promise<IColorData> {
+    const response = await fetch(COLOR_URL)
+    return response.json()
+  }
+
   // Fetches the repo data either from cache or from the API and returns a Promise for the data
   protected async getRepoData() : Promise<IRepoData> {
     try {
       // Check if the user's data is in the cache
-      const cachedData = await this.checkCache()
+      const cachedData = await this.checkRepoCache()
       this.repoDataFromCache = true
       return Promise.resolve(cachedData.data)
     } catch (e) {
@@ -87,50 +123,28 @@ export class Data {
     }
   }
 
-  protected updateRepoData(repoData: IRepoData, json: IAPIRepoData[]) : IRepoData {
-    for (const repo of json) {
-      if (repo.language === null) { continue }
-      let count = repoData[repo.language] || 0
-      count++
-      repoData[repo.language] = count
-      this.emptyAccount = false
-    }
-    return repoData
-  }
+  protected checkRepoCache() : Promise<ICachedRepoData> {
+    // Create a promise to retrieve the key from cache, or reject if it's not there
+    return new Promise((resolve, reject) => {
+      // return reject() // Uncomment this to turn off cache reads when in development
+      chrome.storage.local.get([this.username], (result) => {
+        // If the data isn't there, result will be an empty object
+        if (Object.keys(result).length < 1) {
+          // If we get to this point, there was nothing in cache or the cache was invalid
+          return reject()
+        }
+        // We have a cached object, so check time of cache
+        const cachedData : ICachedRepoData = result[this.username]
+        if (new Date().valueOf() - cachedData.cachedAt < REPO_CACHE_THRESHOLD) {
+          // We can use the cached version
+          // Set emptyAccount flag to false here too
+          this.emptyAccount = false
+          return resolve(cachedData)
+        }
 
-  // Helper method to get the next url to go to
-  protected getNextUrlFromHeader(header: string) {
-    if (header === null) { return null }
-    const regex = /\<(.*)\>/
-    // The header can contain many URLs, separated by commas, each with a rel
-    // We want only the one that contains rel="next"
-    for (const url of header.split(', ')) {
-      if (url.includes('rel="next"')) {
-        // We need to retrive the actual URL part using regex
-        return regex.exec(url)[1]
-      }
-    }
-    return null
-  }
-
-  protected generateAPIURL() : string {
-    // Generate the correct API URL request given the circumstances of the request
-    // Circumstances: Org or User page, and if User page, is it the User using the extension
-    const urlBase = 'https://api.github.com'
-    const query = 'page=1&per_page=50'
-    let url : string
-    if (this.isOrg) {
-      url = `${urlBase}/orgs/${this.username}/repos?${query}`
-    }
-    else if (this.username === this.personalToken.username) {
-      // Send the request to list the user's own repos
-      url = `${urlBase}/user/repos?${query}&affiliation=owner`
-    }
-    else {
-      // Send the request to the normal users endpoint
-      url = `${urlBase}/users/${this.username}/repos?${query}`
-    }
-    return url
+        return reject()
+      })
+    })
   }
 
   // Fetch repository data from the API
@@ -142,7 +156,6 @@ export class Data {
     if (this.personalToken !== null && this.personalToken.username !== null) {
       headers.Authorization = `token ${this.personalToken.token}`
     }
-    const headerRegex = /\<(.*)\> rel="next"/
     // Use Promise.resolve to wait for the result
     let response = await fetch(url, {headers})
     linkHeader = response.headers.get('link')
@@ -171,5 +184,51 @@ export class Data {
     }
     // Still gonna return a promise
     return Promise.resolve(repoData)
+  }
+
+  protected updateRepoData(repoData: IRepoData, json: IAPIRepoData[]) : IRepoData {
+    for (const repo of json) {
+      if (repo.language === null) { continue }
+      let count = repoData[repo.language] || 0
+      count++
+      repoData[repo.language] = count
+      this.emptyAccount = false
+    }
+    return repoData
+  }
+
+  protected generateAPIURL() : string {
+    // Generate the correct API URL request given the circumstances of the request
+    // Circumstances: Org or User page, and if User page, is it the User using the extension
+    const urlBase = 'https://api.github.com'
+    const query = 'page=1&per_page=50'
+    let url : string
+    if (this.isOrg) {
+      url = `${urlBase}/orgs/${this.username}/repos?${query}`
+    }
+    else if (this.username === this.personalToken.username) {
+      // Send the request to list the user's own repos
+      url = `${urlBase}/user/repos?${query}&affiliation=owner`
+    }
+    else {
+      // Send the request to the normal users endpoint
+      url = `${urlBase}/users/${this.username}/repos?${query}`
+    }
+    return url
+  }
+
+  // Helper method to get the next url to go to
+  protected getNextUrlFromHeader(header: string) {
+    if (header === null) { return null }
+    const regex = /\<(.*)\>/
+    // The header can contain many URLs, separated by commas, each with a rel
+    // We want only the one that contains rel="next"
+    for (const url of header.split(', ')) {
+      if (url.includes('rel="next"')) {
+        // We need to retrive the actual URL part using regex
+        return regex.exec(url)[1]
+      }
+    }
+    return null
   }
 }

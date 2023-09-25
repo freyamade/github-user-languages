@@ -1,6 +1,6 @@
 // This script is excuted directly from inside the page
 import { ArcElement, Chart, Legend, LineElement, PieController, Tooltip } from 'chart.js'
-import { Data, ICachedData, IColorData, IRepoData, ITokenData } from './data'
+import { Data, ICachedRepoData, IColorData, IRepoData, ITokenData } from './data'
 import { GHULError } from './errors'
 
 // Register the parts of Chart.js I need
@@ -58,6 +58,7 @@ class LanguageDisplay {
     // Use the promise provided by the Data class to get all necessary data
     try {
       const values = await this.data.getData()
+      console.log(values)
       // 0 -> color data, 1 -> repo data
       const colorData : IColorData = values[0]
       const repoData : IRepoData = values[1]
@@ -90,7 +91,7 @@ class LanguageDisplay {
   protected cacheData(data: IRepoData) {
     // Store the repo data in the cache for the username
     const cachedAt : number = new Date().valueOf()
-    const value : ICachedData = {
+    const value : ICachedRepoData = {
       cachedAt,
       data,
     }
@@ -153,7 +154,8 @@ class LanguageDisplay {
         // Prop is one of the languages
         langs.push(prop)
         counts.push(repoData[prop])
-        colors.push(colorData[prop] || '#ededed')
+        console.log(colorData[prop])
+        colors.push(colorData[prop]['color'] || '#ededed')
       }
     }
     // Update the canvas height based on the number of languages
@@ -200,6 +202,7 @@ class LanguageDisplay {
 
 }
 
+console.log('trying to boot up ghl')
 // Get the profile name for the current page, if the current page is an account page
 // The profile name will get retrieved from location.pathname
 let profileName : string | null = null
