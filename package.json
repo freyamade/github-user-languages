@@ -23,7 +23,7 @@
     "url": "https://github.com/freyamade/github-user-languages.git"
   },
   "scripts": {
-    "archive-c-dist": "cp manifests/chrome.json dist/manifest.json && cd dist && zip -r ../c-dist.zip *",
+    "archive-c-dist": "cp manifests/chrome.json dist/manifest.json && cd dist && zip -r ../c-dist.zip * && cp ../manifests/firefox.json manifest.json",
     "archive-ff-dist": "cp manifests/firefox.json dist/manifest.json && cd dist && zip -r ../ff-dist.zip *",
     "archive-src": "zip -r src.zip package.json package-lock.json src/ webpack/ tsconfig.json tslint.json README.md",
     "build": "webpack --config webpack/webpack.prod.js",
