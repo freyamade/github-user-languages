@@ -1,7 +1,6 @@
 # 1.1.0
-- Security updates
 - Setting up project to be also used within my personal website
-- Updated colours
+- Updated extension to pull colours from https://github.com/ozh/github-colors
 
 # 1.0.13
 - Pulling in dependabot pull requests
