@@ -41,10 +41,10 @@ export class Data {
   public repoDataFromCache : boolean = false
   public emptyAccount : boolean = true
   protected isOrg : boolean
-  protected personalToken : ITokenData
+  protected personalToken : ITokenData | null
   protected username : string
 
-  constructor(username: string, isOrg: boolean, token: ITokenData) {
+  constructor(username: string, isOrg: boolean, token: ITokenData | null) {
     this.username = username
     this.isOrg = isOrg
     this.personalToken = token
