@@ -29,9 +29,9 @@ interface IAPIRepoData {
 export class Data {
   public repoDataFromCache : boolean = false
   public emptyAccount : boolean = true
-  private isOrg : boolean
-  private personalToken : ITokenData
-  private username : string
+  protected isOrg : boolean
+  protected personalToken : ITokenData
+  protected username : string
 
   constructor(username: string, isOrg: boolean, token: ITokenData) {
     this.username = username
@@ -45,12 +45,12 @@ export class Data {
     return Promise.all([this.getColorData(), this.getRepoData()])
   }
 
-  private async getColorData() : Promise<IColorData> {
+  protected async getColorData() : Promise<IColorData> {
     const url = chrome.runtime.getURL('colors.json')
     return (await fetch(url)).json()
   }
 
-  private checkCache() : Promise<ICachedData> {
+  protected checkCache() : Promise<ICachedData> {
     // Create a promise to retrieve the key from cache, or reject if it's not there
     return new Promise((resolve, reject) => {
       // return reject() // Uncomment this to turn off cache reads when in development
@@ -75,7 +75,7 @@ export class Data {
   }
 
   // Fetches the repo data either from cache or from the API and returns a Promise for the data
-  private async getRepoData() : Promise<IRepoData> {
+  protected async getRepoData() : Promise<IRepoData> {
     try {
       // Check if the user's data is in the cache
       const cachedData = await this.checkCache()
@@ -87,7 +87,7 @@ export class Data {
     }
   }
 
-  private updateRepoData(repoData: IRepoData, json: IAPIRepoData[]) : IRepoData {
+  protected updateRepoData(repoData: IRepoData, json: IAPIRepoData[]) : IRepoData {
     for (const repo of json) {
       if (repo.language === null) { continue }
       let count = repoData[repo.language] || 0
@@ -99,7 +99,7 @@ export class Data {
   }
 
   // Helper method to get the next url to go to
-  private getNextUrlFromHeader(header: string) {
+  protected getNextUrlFromHeader(header: string) {
     if (header === null) { return null }
     const regex = /\<(.*)\>/
     // The header can contain many URLs, separated by commas, each with a rel
@@ -113,7 +113,7 @@ export class Data {
     return null
   }
 
-  private generateAPIURL() : string {
+  protected generateAPIURL() : string {
     // Generate the correct API URL request given the circumstances of the request
     // Circumstances: Org or User page, and if User page, is it the User using the extension
     const urlBase = 'https://api.github.com'
@@ -134,7 +134,7 @@ export class Data {
   }
 
   // Fetch repository data from the API
-  private async fetchRepoData() : Promise<IRepoData> {
+  protected async fetchRepoData() : Promise<IRepoData> {
     let url = this.generateAPIURL()
     let linkHeader : string
     let repoData : IRepoData = {}
