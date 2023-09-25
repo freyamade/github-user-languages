@@ -33,8 +33,20 @@ data['version'] = new_ver
 with open('package.json', 'w') as f:
     json.dump(data, f, sort_keys=True, indent=2)
 
-# Now the manifest file
+# Now the manifest files
 with open('dist/manifest.json') as f:
+    data = json.load(f)
+data['version'] = new_ver
+with open('dist/manifest.json', 'w') as f:
+    json.dump(data, f, sort_keys=True, indent=2)
+
+# Open the dist specific manifests
+with open('dist/manifests/firefox.json') as f:
+    data = json.load(f)
+data['version'] = new_ver
+with open('dist/manifest.json', 'w') as f:
+    json.dump(data, f, sort_keys=True, indent=2)
+with open('dist/manifests/chrome.json') as f:
     data = json.load(f)
 data['version'] = new_ver
 with open('dist/manifest.json', 'w') as f:

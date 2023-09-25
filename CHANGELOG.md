@@ -1,8 +1,9 @@
 # 1.1.0
 - Updated extension to pull colours from https://github.com/ozh/github-colors
   - colours are loaded every week, which roughly coincides with how often the above repo is updated
-- Updated to manifest v3 to bring back the chrome version
-  - also removed the background script from the distributed version since it was only for 0.1.9 integrity issues
+- Updated Chrome version to manifest v3 to allow it to be used
+  - Firefox version continues to use manifest v2
+- Removed the background script from the distributed version since it was only for 0.1.9 integrity issues
 - Setting up project to be also used within my personal website
 
 # 1.0.13
