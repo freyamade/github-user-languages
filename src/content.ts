@@ -1,6 +1,6 @@
 // This script is excuted directly from inside the page
 import { ArcElement, Chart, Legend, LineElement, PieController, Tooltip } from 'chart.js'
-import { Data, ICachedData, IColorData, IRepoData, ITokenData } from './data'
+import { Data, ICachedRepoData, IColorData, IRepoData, ITokenData } from './data'
 import { GHULError } from './errors'
 
 // Register the parts of Chart.js I need
@@ -11,11 +11,11 @@ const ORG_XPATH = '//*[text() = "Top languages"]'
 const USER_CONTAINER_SELECTOR = 'div[itemtype="http://schema.org/Person"]'
 
 class LanguageDisplay {
-  private canvas : HTMLCanvasElement
-  private container : HTMLDivElement
-  private data : Data
-  private parent : HTMLDivElement
-  private username : string
+  protected canvas : HTMLCanvasElement
+  protected container : HTMLDivElement
+  protected data : Data
+  protected parent : HTMLDivElement
+  protected username : string
 
   constructor(username: string) {
     this.username = username
@@ -53,7 +53,7 @@ class LanguageDisplay {
     })
   }
 
-  private async getData() {
+  protected async getData() {
     // Fetch the color data from the json file
     // Use the promise provided by the Data class to get all necessary data
     try {
@@ -87,10 +87,10 @@ class LanguageDisplay {
     }
   }
 
-  private cacheData(data: IRepoData) {
+  protected cacheData(data: IRepoData) {
     // Store the repo data in the cache for the username
     const cachedAt : number = new Date().valueOf()
-    const value : ICachedData = {
+    const value : ICachedRepoData = {
       cachedAt,
       data,
     }
@@ -99,7 +99,7 @@ class LanguageDisplay {
     chrome.storage.local.set(cacheData)
   }
 
-  private createContainer() {
+  protected createContainer() {
     const div = document.createElement('div')
     const header = document.createElement('h4')
     const headerText = document.createTextNode('Languages')
@@ -115,7 +115,7 @@ class LanguageDisplay {
     return div
   }
 
-  private createCanvas(width: number) {
+  protected createCanvas(width: number) {
     // Round width down to the nearest 50
     width = Math.floor(width / 50) * 50
     // Create the canvas to put the chart in
@@ -129,7 +129,7 @@ class LanguageDisplay {
     return canvas
   }
 
-  private build(colorData: IColorData, repoData: IRepoData) {
+  protected build(colorData: IColorData, repoData: IRepoData) {
     this.container = this.createContainer()
     // Get the width and height of the container and use it to build the canvas
     const width = +(window.getComputedStyle(this.container).width.split('px')[0])
@@ -143,7 +143,7 @@ class LanguageDisplay {
     })
   }
 
-  private draw(colorData: IColorData, repoData: IRepoData, showLegend: boolean) {
+  protected draw(colorData: IColorData, repoData: IRepoData, showLegend: boolean) {
     // Create the pie chart and populate it with the repo data
     const counts = []
     const colors = []
@@ -153,7 +153,7 @@ class LanguageDisplay {
         // Prop is one of the languages
         langs.push(prop)
         counts.push(repoData[prop])
-        colors.push(colorData[prop] || '#ededed')
+        colors.push((colorData[prop] || {}).color || '#ededed')
       }
     }
     // Update the canvas height based on the number of languages

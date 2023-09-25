@@ -1,15 +1,9 @@
 {
-  "author": "freyamade",
-  "background": {
-    "persistent": false,
-    "scripts": [
-      "js/background.js"
-    ]
-  },
-  "browser_action": {
+  "action": {
     "default_icon": "images/github-user-languages.128.png",
     "default_popup": "popup.html"
   },
+  "author": "freyamade",
   "browser_specific_settings": {
     "gecko": {
       "id": "extension@github-user-languages.github.com"
@@ -27,18 +21,18 @@
     }
   ],
   "description": "See the language usage breakdown of a User or Org right on their GitHub profile page.",
+  "host_permissions": [
+    "https://api.github.com/",
+    "https://raw.githubusercontent.com/ozh/github-colors/master/colors.json"
+  ],
   "icons": {
     "128": "images/github-user-languages.128.png"
   },
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "GitHub User Languages",
   "permissions": [
-    "https://api.github.com/",
     "storage"
   ],
   "short_name": "github-user-languages",
-  "version": "1.0.13",
-  "web_accessible_resources": [
-    "colors.json"
-  ]
+  "version": "1.1.0"
 }
