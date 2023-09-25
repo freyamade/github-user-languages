@@ -1,3 +1,8 @@
+# 1.1.0
+- Security updates
+- Setting up project to be also used within my personal website
+- Updated colours
+
 # 1.0.13
 - Pulling in dependabot pull requests
 - Fixing organisation page displays
