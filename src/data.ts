@@ -14,7 +14,7 @@ export interface IRepoData {
 
 export interface IColorData {
   [language: string] : {
-    color: string
+    color : string,
   }
 }
 
@@ -65,7 +65,7 @@ export class Data {
       colorData = cachedData.data
     } catch (e) {
       colorData = await this.fetchColorData()
-      
+
       // Cache the data
       const cachedAt : number = new Date().valueOf()
       const value : ICachedColorData = {
@@ -75,9 +75,9 @@ export class Data {
       const cacheData = {}
       cacheData[COLOR_CACHE_KEY] = value
       chrome.storage.local.set(cacheData)
-    } finally {
-      return colorData
     }
+    // Return the found data, regardless of source
+    return colorData
   }
 
   protected checkColorCache() : Promise<ICachedColorData> {

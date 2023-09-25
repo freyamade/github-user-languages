@@ -153,7 +153,7 @@ class LanguageDisplay {
         // Prop is one of the languages
         langs.push(prop)
         counts.push(repoData[prop])
-        colors.push(colorData[prop]['color'] || '#ededed')
+        colors.push((colorData[prop] || {}).color || '#ededed')
       }
     }
     // Update the canvas height based on the number of languages
