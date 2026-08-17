@@ -1,3 +1,6 @@
+# 1.1.1
+- Renamed extension to 'User Languages' and removed Github from the Branding to fix copyright issue brought up via Microsoft's use of Tracer AI.
+
 # 1.1.0
 - Updated extension to pull colours from https://github.com/ozh/github-colors
   - colours are loaded every week, which roughly coincides with how often the above repo is updated
