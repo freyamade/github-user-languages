@@ -24,10 +24,10 @@
       "128": "images/github-user-languages.128.png"
     },
     "manifest_version": 3,
-    "name": "GitHub User Languages",
+    "name": "User Languages",
     "permissions": [
       "storage"
     ],
-    "short_name": "github-user-languages",
+    "short_name": "user-languages",
     "version": "1.1.0"
   }
